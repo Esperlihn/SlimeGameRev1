@@ -8,15 +8,31 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "Vector4",
+"language": "GDScript",
+"path": "res://Scripts/Singletons/ExtendedVectors.gd"
+}, {
+"base": "Node",
+"class": "Vector5",
+"language": "GDScript",
+"path": "res://Scripts/Singletons/Functions.gd"
+} ]
+_global_script_class_icons={
+"Vector4": "",
+"Vector5": ""
+}
+
 [application]
 
 config/name="3D Astar Testing"
-run/main_scene="res://Node2D.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://Scenes/Node2D.tscn"
+config/icon="res://Resources/icon.png"
 
 [autoload]
 
-Functions="*res://Functions.gd"
+Functions="*res://Scripts/Singletons/Functions.gd"
 
 [display]
 
@@ -53,7 +69,7 @@ mouse_left_click={
 }
 mouse_middle_click={
 "deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":3,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 Touch={
@@ -64,6 +80,11 @@ Touch={
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
+
+[locale]
+
+translation_remaps={
+}
 
 [physics]
 

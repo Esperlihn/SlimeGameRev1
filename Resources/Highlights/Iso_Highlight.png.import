@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/iso.png-2c76952fa90d56792a082004e8117757.stex"
+path="res://.import/Iso_Highlight.png-c75df7630ffa41117bde050cd00db62d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/iso.png"
-dest_files=[ "res://.import/iso.png-2c76952fa90d56792a082004e8117757.stex" ]
+source_file="res://Resources/Highlights/Iso_Highlight.png"
+dest_files=[ "res://.import/Iso_Highlight.png-c75df7630ffa41117bde050cd00db62d.stex" ]
 
 [params]
 

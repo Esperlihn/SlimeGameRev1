@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Iso_Highlight_Clear-Sheet.png-f51803681747088b3736a124c153e434.stex"
+path="res://.import/Iso_Highlight_Clear-Sheet.png-f3dc37e50280bd23e0ae2e78e5b2d9e2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Iso_Highlight_Clear-Sheet.png"
-dest_files=[ "res://.import/Iso_Highlight_Clear-Sheet.png-f51803681747088b3736a124c153e434.stex" ]
+source_file="res://Resources/Highlights/Iso_Highlight_Clear-Sheet.png"
+dest_files=[ "res://.import/Iso_Highlight_Clear-Sheet.png-f3dc37e50280bd23e0ae2e78e5b2d9e2.stex" ]
 
 [params]
 

@@ -1,11 +1,10 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://Iso_Highlight_Clear-Sheet.png" type="Texture" id=1]
-[ext_resource path="res://Resources/Iso_Highlight.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Highlights/Iso_Highlight_Clear-Sheet.png" type="Texture" id=1]
+[ext_resource path="res://Resources/Highlights/Iso_Highlight.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
-length = 2.0
 loop = true
 step = 0.5
 tracks/0/type = "value"
@@ -15,10 +14,10 @@ tracks/0/loop_wrap = false
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
-"transitions": PoolRealArray( 1, 1.7411, 1 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 0.267943, 1.03526, 0.482969 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.0196078, 0.0784314, 0.466667, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 0, 0, 1 ), Color( 0.0196078, 0.0784314, 0.466667, 1 ), Color( 1, 0, 0, 1 ) ]
 }
 
 [sub_resource type="AtlasTexture" id=2]
@@ -65,7 +64,8 @@ animations = [ {
 modulate = Color( 1, 1, 1, 0.482353 )
 
 [node name="Iso_Highlight" type="Sprite" parent="."]
-self_modulate = Color( 0.466667, 0.0196078, 0.0196078, 1 )
+self_modulate = Color( 0.971468, 0.00228256, 0.0135813, 1 )
+position = Vector2( 0, 16 )
 texture = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Iso_Highlight"]
@@ -75,6 +75,7 @@ anims/idle = SubResource( 1 )
 
 [node name="Iso_Highlight_Clear-Sheet" type="AnimatedSprite" parent="."]
 visible = false
+position = Vector2( 0, 16 )
 frames = SubResource( 10 )
-frame = 3
+frame = 6
 playing = true

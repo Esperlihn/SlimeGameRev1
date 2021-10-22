@@ -1,5 +1,5 @@
 extends Node
-
+class_name Vector5
 
 func _ready():
 	print("I don't think I'll need this singleton for quite some time")
