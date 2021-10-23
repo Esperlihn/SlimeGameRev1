@@ -9,6 +9,7 @@ onready var height_limit       = get_node("..").get_child_count() - 1
 onready var entity_height      = 3# height_limit
 onready var highlight          = preload("res://Scenes/Highlight Tile.tscn")
 onready var camera             = get_node("../../Interactive HUD")
+onready var selecttile         = preload("res://Scenes/Select_highlight.tscn")
 
 
 #============================DEBUG=============================================#
@@ -24,14 +25,20 @@ var used_tiles                 = []
 var buffer_array               = []
 var highlights                 = []
 var highlightcount             = 0
-var swimmable_tiles            = [4, 5, 6, 7]
-var bridgetiles                = [8, 9, 10, 11]
+var swimmable_tiles            = [1]
+var bridgetiles                = [3, 4]
+var fulltiles                  = [0]
 var layers_ascending           = layers
 var index_max_value            = 0
 const bridgetileoffset         = 4
+const watertileoffset          = 8
 var test_array                 = []
 var highlight_path             = []
+var canswim                    = false
+var select
 var junk
+var select_tile_pos
+
 
 class MyCustomSorter:
 	static func sort_nodes_ascending(a, b):
@@ -40,6 +47,66 @@ class MyCustomSorter:
 		if a < b:
 			return true
 		return false
+
+func teststuff():
+	var time = OS.get_system_time_msecs()
+	var vec3 = _calculate_point_index(Vector3(select_tile_pos.x, select_tile_pos.y, 0))
+	var array = []
+
+	_clear_highlights()
+	array = astar.get_id_path(vec3, 1)
+
+	for i in array:
+		var v = _index_to_cell_value(i)
+		buffer_array.append(Vector2(i, v))
+	array = buffer_array
+	buffer_array = []
+
+	_set_highlights(array)
+	print("teststuff ran in ", OS.get_system_time_msecs() - time, " ms")
+
+
+func moverange3D(moverange = 5, originalindexposition = 0):
+	var time = OS.get_system_time_msecs()
+	var array = []
+	var movement
+	originalindexposition = \
+	_calculate_point_index(Vector3(select_tile_pos.x, select_tile_pos.y, select.z_index))
+	_clear_highlights()
+	for x in range(-moverange, moverange + 1):
+		for y in range(-moverange, moverange + 1):
+			for z in range(-moverange, moverange + 1):
+				if z < 0:
+					movement = moverange + abs(z)
+				else:
+					movement = moverange
+				
+				if z > layers.size():
+					continue
+				if abs(x) + abs(y) + abs(z) > movement:
+					continue
+				if x == 0 and y == 0 and z == 0:
+					continue
+
+				var newindex = x + (y*map_size.x) + (z * map_size.x * map_size.y) + originalindexposition
+				if newindex < 0:
+					continue
+				var v = _index_to_cell_value(newindex)
+				var pos = Vector2(newindex, v)
+				if !astar.has_point(newindex):
+					continue
+				if z < 0:
+					movement -= abs(z)
+				var a = astar.get_id_path(originalindexposition, newindex)
+				if a.size() > movement + 1:
+					continue
+				if !a:
+					continue
+
+				array.append(pos)
+	print("moverange3D took ", OS.get_system_time_msecs() - time, "ms to run")
+	return array
+
 
 
 func _ready():
@@ -56,6 +123,13 @@ func _ready():
 	_add_walkable_tiles()
 	_connect_walkable_tiles()
 	_spawn_highlights()
+	
+	select = selecttile.instance()
+	self.add_child(select)
+	select.z_index = 0
+	var layer = layers_ascending[select.z_index]
+	select_tile_pos = layer.world_to_map(select.position)
+	select.position = layer.map_to_world(select_tile_pos)
 
 	print(\
 	linebreak,\
@@ -69,7 +143,84 @@ func _ready():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("mouse_left_click"):
-		_navigate_to_click_location()
+#		_navigate_to_click_location()
+		return
+
+	if event.is_action_pressed("ui_right"):
+		selecttileinput("ui_right")
+	if event.is_action_pressed("ui_left"):
+		selecttileinput("ui_left")
+	if event.is_action_pressed("ui_up"):
+		selecttileinput("ui_up")
+	if event.is_action_pressed("ui_down"):
+		selecttileinput("ui_down")
+
+func selecttileinput(dir):
+	var time = OS.get_system_time_msecs()
+	var offset = Vector2.ZERO
+	var indexoffset = 0
+	var zoffset = map_size.x * map_size.y
+	var layer = select.get_parent()
+	var vec3 = Vector3(select_tile_pos.x, select_tile_pos.y, select.z_index)
+	var index = _calculate_point_index(vec3)
+	_clear_highlights()
+
+	if dir == "ui_down":
+		indexoffset = 1
+	if dir == "ui_up":
+		indexoffset = -1
+	if dir == "ui_left":
+		indexoffset = map_size.x
+	if dir == "ui_right":
+		indexoffset = -map_size.x
+	if dir == "none":
+		indexoffset = 0
+
+	if astar.are_points_connected(index, index + indexoffset) == true:
+		index += indexoffset
+	elif astar.are_points_connected(index, index + indexoffset + zoffset) == true:
+		index += indexoffset + zoffset
+	elif astar.are_points_connected(index, index + indexoffset - zoffset) == true:
+		index += indexoffset - zoffset
+	elif dir == "none":
+		pass
+	else:
+		pass
+
+	vec3 = _point_index_to_vec3(index)
+
+	select_tile_pos = Vector2(vec3.x, vec3.y)
+	select.position = layer.map_to_world(select_tile_pos)
+	
+	select.z_index = vec3.z
+	if vec3.z >= 1:
+		select.offset.y = 17
+		offset.y == layer.position.y
+		offset.y += 15
+	else:
+		select.offset.y =  15
+	select.position += offset
+	
+	layer = select.get_parent()
+	layer.remove_child(select)
+	layer = layers_ascending[vec3.z]
+	layer.add_child(select)
+
+	if bridgetiles.has(layer.get_cellv(select_tile_pos)):
+			if select.z_index == 0:
+				select.position.y += bridgetileoffset
+			else:
+				select.position.y -= bridgetileoffset
+	if swimmable_tiles.has(layer.get_cellv(select_tile_pos)):
+		select.position.y += watertileoffset
+	
+	var movement = moverange3D()
+	_set_highlights(movement)
+	
+	camera.position = select.position
+	print("selecttileinput took ", OS.get_system_time_msecs() - time, " ms to run")
+	print(linebreak)
+
 
 #======================== ASTAR FUNCTIONS =====================================#
 
@@ -113,7 +264,6 @@ func _add_walkable_tiles():
 			if _index_to_cell_value(index + (layer_size * 2)) != -1:
 				continue
 #==============================================================================#
-
 		points_array.append(Vector2(index, value))
 		astar.add_point(index, point, 1)
 	points_array.sort()
@@ -145,12 +295,12 @@ func _connect_walkable_tiles():
 			var point_relative_index = _calculate_point_index(point_relative)
 			if not astar.has_point(point_relative_index):
 				continue
-#This last function here is because the first row of x values was looping around
-#And connecting with the last row of x values. This function should stop
-#That from happening on every layer.
-#IT doesn't work after a rotation I don't know WHY
-			if point_relative.x < map_size.x:
-				if point_relative_index - point_index > map_size.x * 2:
+#disables the ability for players to "wraparound" from one edge to another
+			if point.y == 0 or point.y == map_size.y - 1:
+				if abs(point_relative_index - point_index) > map_size.x:
+					continue
+			if point.x == 0 or point.x == map_size.x - 1:
+				if abs(point_relative_index - point_index) == 1:
 					continue
 
 			astar.connect_points(point_index, point_relative_index, true)
@@ -207,10 +357,17 @@ func _set_highlights(tile_array):
 		var layer = layers_ascending[pos.z]
 		var layer_offset = layer.position.y
 		var highlighter = highlights.pop_front()
+		if swimmable_tiles.has(value):
+			if canswim == false:
+				continue
+			else:
+				layer_offset += watertileoffset
 		if pos.z > 0:
 			layer_offset += 16
-		if bridgetiles.has(value):
-			layer_offset += 4
+			if bridgetiles.has(value):
+				layer_offset -= bridgetileoffset
+		elif bridgetiles.has(value):
+				layer_offset += bridgetileoffset
 		pos = Vector2(pos.x, pos.y)
 
 		highlighter.visible = true
@@ -252,13 +409,27 @@ func _rotate(dir):
 		_set_single_tile(tile)
 	highlight_path = buffer_array
 	buffer_array = []
+	camera.smoothing_enabled = false
+	camera.position = _rotate_camera_90(camera.position, dir)
+	select.position = _rotate_camera_90(select.position, dir)
+	var layer = select.get_parent()
+	select_tile_pos = layer.world_to_map(select.position)
+	if select.z_index > 0:
+		select.position.y -= 1
+	if select.z_index == 0:
+		select.position.y -= 16
+	if bridgetiles.has(layer.get_cellv(select_tile_pos)):
+		if layer.z_index > 0:
+			select.position.y -= bridgetileoffset
+		else:
+			select.position.y += bridgetileoffset
+	
 	print("converting coordinates took ", OS.get_system_time_msecs() - time, " ms to run")
 
 	_add_walkable_tiles()
 	_connect_walkable_tiles()
 	_set_highlights(highlight_path)
-	camera.smoothing_enabled = false
-	camera.position = _rotate_camera_90(camera.position, dir)
+	_set_highlights(moverange3D())
 	
 	print("--ROTATE-- ", dir,  " took ", OS.get_system_time_msecs() - totaltime, " ms to run")
 	print("Orientation is ", orientation, " Direction was ", dir)
@@ -334,7 +505,7 @@ func _rotate_index_90(tile, dir):
 	
 	return Vector2(new_index, value)
 func _rotate_camera_90(pos, dir):
-	pos = layers_ascending[0].world_to_map(camera.position)
+	pos = layers_ascending[0].world_to_map(pos)
 	var newpos = Vector2.ZERO
 	
 	if dir == "right":

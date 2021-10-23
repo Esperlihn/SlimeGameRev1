@@ -9,7 +9,7 @@ var zoom_pos        = Vector2.ZERO
 onready var level   = get_node("../Map/0")
 var modifier = Vector2(0, 0)
 var rotation_value  = true
-var debug = true
+var debug = false
 
 signal rotate_right
 signal rotate_left
@@ -43,7 +43,6 @@ func _unhandled_input(event):
 	if event.is_action_pressed("ui_page_down"):
 		if zoom > zoom_max:
 			return
-		zoom_pos = Vector2.ZERO
 		zoom += zoom_factor
 		scale = zoom
 		if debug == true:
@@ -54,8 +53,6 @@ func _unhandled_input(event):
 			return
 		zoom -= zoom_factor
 		scale = zoom
-		zoom_pos = get_global_mouse_position()
-		self.position -= (self.position - zoom_pos) / 5
 		if debug == true:
 			print("Zoom = ", zoom, " scale = ", scale)
 

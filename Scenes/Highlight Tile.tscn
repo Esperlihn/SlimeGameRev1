@@ -74,8 +74,8 @@ method_call_mode = 1
 anims/idle = SubResource( 1 )
 
 [node name="Iso_Highlight_Clear-Sheet" type="AnimatedSprite" parent="."]
-visible = false
+modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 0, 16 )
 frames = SubResource( 10 )
-frame = 6
+frame = 1
 playing = true
