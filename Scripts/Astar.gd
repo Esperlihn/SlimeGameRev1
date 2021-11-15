@@ -56,17 +56,21 @@ var used_tiles                 = []
 var buffer_array               = []
 
 var highlights                 = []
-var used_highlights            = []
+#var used_highlights            = []
 var highlightcount             = 0
-var tileoffsets                = [0, 8, 0, 4, -2, 0]
+var tileoffsets                = [0, 8, 0, 4, -4, 0]
 var index_max_value            = 0
-var dict                       = {}
+var atlas                       = {}
 var selecttileindex            = 0
 
 var moverange                  = 25
 var jumpheight                 = 1
 var ignoremouseclicks          = false
 var runningfunc                = 0
+
+var white                      = Color.white
+var blue                       = Color8(0,0,255,255)
+var green                      = Color8(0,255,0,255)
 #==============================================================================#
 #=========================== STARTUP ONLY FUNCTIONS ===========================#
 #==============================================================================#
@@ -93,16 +97,11 @@ func _ready():
 	map_origin.x = clamp(map_origin.x, 0, 99999)
 	map_origin.y = clamp(map_origin.y, 0, 99999)
 
-	_populate_dict()
+	_populate_atlas()
 	_get_used_tiles()
 	_add_walkable_tiles()
 	_connect_walkable_tiles()
 	_spawn_highlights()
-#
-#
-#	OS.set_window_title("HEHEHE")
-#	OS.alert("You're too adorable c:", "BEWARE")
-#	get_tree().quit()
 	
 	print(\
 	linebreak,\
@@ -114,12 +113,9 @@ func _ready():
 	"\n\n==============================",\
 	"\nSystem startup took ", OS.get_system_time_msecs() - time, " ms",\
 	linebreak )
-	
 
-#func _process(delta):
-#	print(Performance.TIME_FPS)
 
-func _populate_dict():
+func _populate_atlas():
 	var time = OS.get_system_time_msecs()
 	for x in range(0, map_size.x):
 		for y in range(0, map_size.y):
@@ -128,7 +124,7 @@ func _populate_dict():
 				var point_index = _calculate_index(point)
 				point = Vector2(x, y)
 				var layer = layers_ascending[z]
-				dict[point_index] = \
+				atlas[point_index] = \
 				[
 				#0 ---------------------CELLVALUE-------------------------------#
 				-1,
@@ -182,10 +178,12 @@ func _populate_dict():
 				#16 --------------------INDEX-----------------------------------#
 				_calculate_index(Vector3(x,y,z)),
 				
+				#17 --------------------HIGHTLIGHT------------------------------#
+				null,
 				
 				#----------------------BLANK SPACE BB--------------------------#
 				]
-	print("populate_dict ran in ", OS.get_system_time_msecs() - time, " ms")
+	print("populate_atlas ran in ", OS.get_system_time_msecs() - time, " ms")
 func _get_used_tiles():
 	var time = OS.get_system_time_msecs()
 	
@@ -199,7 +197,7 @@ func _get_used_tiles():
 			var point_index = _calculate_index(Vector3(cell.x, cell.y, z))
 			var value = l.get_cellv(cell)
 			used_tiles.append(int(point_index))
-			dict[point_index][I.CELLVALUE] = value
+			atlas[point_index][I.CELLVALUE] = value
 	print("Used tiles ran in ", OS.get_system_time_msecs() - time, " ms")
 func _add_walkable_tiles():
 	var time         = OS.get_system_time_msecs()
@@ -210,8 +208,8 @@ func _add_walkable_tiles():
 		if tile > index_max_value:
 			continue
 		var index = int(tile)
-		var value = dict[index][I.CELLVALUE]
-		var point = dict[index][I.ASTARCOORD]
+		var value = atlas[index][I.CELLVALUE]
+		var point = atlas[index][I.ASTARCOORD]
 #==============================================================================#
 #		if unwalkable_tiles.has(index):
 #			continue
@@ -220,15 +218,15 @@ func _add_walkable_tiles():
 				continue
 #if the tile above is occupied, tile is not walkable
 		if index + layer_size < index_max_value:
-			if dict[int(index + layer_size)][I.CELLVALUE] != -1:
+			if atlas[int(index + layer_size)][I.CELLVALUE] != -1:
 				continue
 #If the next tile imemdiately above that is occupied. Tile is Still not walkable.
 		else:
 			if index + layer_size*2 < index_max_value:
-				if dict[index + layer_size*2][I.CELLVALUE] != -1:
+				if atlas[index + layer_size*2][I.CELLVALUE] != -1:
 					continue
 #==============================================================================#
-		dict[index][I.WALKABLE] = true
+		atlas[index][I.WALKABLE] = true
 		points_array.append(index)
 		astar.add_point(index, point, 1)
 	walkable_tiles = points_array
@@ -238,7 +236,7 @@ func _add_walkable_tiles():
 func _connect_walkable_tiles():
 	var time =  OS.get_system_time_msecs() 
 	for point_index in walkable_tiles:
-		var point = dict[point_index][I.ASTARCOORD]
+		var point = atlas[point_index][I.ASTARCOORD]
 		var points_relative = PoolVector3Array([
 			point + Vector3(1, 0, 0),
 			point + Vector3(-1, 0, 0),
@@ -270,16 +268,21 @@ func _connect_walkable_tiles():
 	return
 func _spawn_highlights():
 	var time = OS.get_system_time_msecs()
-	var counter = used_tiles.size() * 1.25
-	while highlightcount < counter:
+	for tile in walkable_tiles:
 		var r = highlight.instance()
+		var layer = atlas[tile][I.LAYER]
+		atlas[tile][I.HIGHLIGHT] = r
 		highlights.append(r)
-		layers[0].add_child(r)
-		r.position.y -= 32
+
+		layer.add_child(r)
+		r.position = atlas[tile][I.POSITION]
+		r.position.y += tileoffsets[atlas[tile][I.CELLVALUE]]
+		if int(layer.name) > 0:
+			r.position.y += 16
 		r.visible = false
 		highlightcount += 1
 	print("spawn_highlights ran in ", OS.get_system_time_msecs() - time, " ms")
-	
+
 #============================== INPUT FUNCTIONS ===============================#
 #==============================================================================#
 
@@ -289,8 +292,9 @@ func _unhandled_input(event):
 			return
 		else:
 			_clear_highlights()
-			set_highlights(_identify_tile(get_global_mouse_position()))
-			print(selecttileindex)
+			set_highlights(_identify_tile(get_global_mouse_position()), blue)
+			if selecttileindex != 0:
+				print(selecttileindex)
 	if event.is_action_pressed("ui_f11"):
 		if OS.window_fullscreen == true:
 			OS.window_borderless = false
@@ -360,7 +364,7 @@ func _identify_tile(Position):
 			value = v
 			break
 	if typeof(finalpos) == 0:
-		print("Selected position is not a valid target")
+		print("_identify_tile: Selected position is not a valid target")
 		return
 	tile.x = finalpos.x
 	tile.y = finalpos.y
@@ -368,80 +372,35 @@ func _identify_tile(Position):
 	tile = _calculate_index(tile)
 	match orientation:
 		0:
-			tile = dict[tile][I.INDEX]
+			tile = atlas[tile][I.INDEX]
 		90:
-			tile = dict[tile][I.INDEX270]
+			tile = atlas[tile][I.INDEX270]
 		180:
-			tile = dict[tile][I.INDEX180]
+			tile = atlas[tile][I.INDEX180]
 		270:
-			tile = dict[tile][I.INDEX90]
+			tile = atlas[tile][I.INDEX90]
 	array.append(tile)
 	selecttileindex = tile
 	return array
 
-func set_highlights(array, color = Color8(0,0,255,255)):
+func set_highlights(array, color):
 	var time = OS.get_system_time_msecs()
-	var string
 
-	if typeof(array) == 0:
-		print("Invalid point selected")
+#Returns function if array is empty or null
+	if !array:
+		print("Set_Highlights: highlight array is empty")
 		return
 
 	for index in array:
-		var pos = dict[index][I.POSITION]
-		match orientation:
-			0:
-				if debug == true:
-					string = str("[center]", dict[index][I.INDEX], "[/center]")
-			90:
-				if debug == true:
-					string = str("[center]", dict[index][I.INDEX90], "[/center]")
-				pos = dict[index][I.POSITION90]
-			180:
-				if debug == true:
-					string = str("[center]", dict[index][I.INDEX180], "[/center]")
-				pos = dict[index][I.POSITION180]
-			270:
-				if debug == true:
-					string = str("[center]", dict[index][I.INDEX270], "[/center]")
-				pos = dict[index][I.POSITION270]
-	
-	
-		var layer = dict[index][I.LAYER]
-		var value = dict[index][I.CELLVALUE]
-		var offset
-	
-		var highlighter = highlights.pop_front()
-		highlighter.position = pos
-		if index > layerindexvalue:
-			highlighter.position.y += 15
-		highlighter.position.y += tileoffsets[value]
-		offset = highlighter.position.y - pos.y
-	
-		highlighter.get_parent().remove_child(highlighter)
-		layer.add_child(highlighter)
-		highlighter.visible = true
-		if debug == true:
-			highlighter.get_node("./Coordinate").visible = true
-			highlighter.get_node("./Coordinate").bbcode_text = string
-			highlighter.modulate = color
-			highlighter.get_node("./Coordinate").self_modulate = Color.white
-			used_highlights.append([highlighter, offset])
-			continue
-		highlighter.modulate = color
-
-		used_highlights.append([highlighter, offset])
-		buffer_array.append(highlighter)
+		highlight = atlas[index][I.HIGHLIGHT]
+		highlight.modulate = color
+		highlight.visible = true
 	print("Set highlights took ", OS.get_system_time_msecs() - time, "ms to run")
 
 func _clear_highlights():
-	for _h in range(used_highlights.size()):
-		var highlighter = used_highlights.pop_front()
-		highlighter = highlighter[0]
-		highlighter.visible = false
-		highlighter.z_index = 0
-		highlighter.position = Vector2(0, -32)
-		highlights.append(highlighter)
+	for h in highlights:
+		h.visible = false
+		h.modulate = Color.white
 func clear_map():
 	for l in layers:
 		l.clear()
@@ -454,6 +413,7 @@ func clear_map():
 func _rotate_map(direction):
 	var time = OS.get_system_time_msecs()
 	var newrot
+	var newpos
 
 #setting new orientation
 	if direction == "right":
@@ -465,44 +425,42 @@ func _rotate_map(direction):
 	match orientation:
 		0:
 			newrot = I.COORDINATES
+			newpos = I.POSITION
 		90:
 			newrot = I.ROTATE90
+			newpos = I.POSITION90
 		180:
 			newrot = I.ROTATE180
+			newpos = I.POSITION180
 		270:
 			newrot = I.ROTATE270
+			newpos = I.POSITION270
 
-#Clear Astar, All Tiles and all Highlights
-#	clear_map()
+#Clear all Tiles and reset Highlights
 	for l in layers:
 		l.clear()
-	astar.clear()
 
 #Rotating all nonemptytiles
 	for index in used_tiles:
-		var tile = dict[index]
-		tile[I.LAYER].set_cellv(tile[newrot], tile[I.CELLVALUE])
-		
-	for high in used_highlights:
-		var offset = high[1]
-		high = high[0]
-		high.position = _rotate_position(high.position, direction)
-		high.position.y += offset
+		var layer = atlas[index][I.LAYER]
+		var cell_value = atlas[index][I.CELLVALUE]
+		var new_coords = atlas[index][newrot]
 
-#Rotating all currently active highlights.
-#Replace this function in the future. I intend to use DICT to store a reference 
-#To all objects on it, highlights, enemies, players, objects, statuses, Anything that can
-#be instanced. So that these things can quickly be found and used based on tiles.
-#	for h in used_highlights:
-#		var hlayer = h.get_parent()
-#		var pos    = hlayer.world_to_map(h.position)
-#		pos = _rotate_coords(pos, direction)
-#		h.position = hlayer.map_to_world(pos)
+		layer.set_cellv(new_coords, cell_value)
 
+#Rotating all highlights
+	for index in walkable_tiles:
+		var highlight_tile = atlas[index][I.HIGHLIGHT]
+		var new_position = atlas[index][newpos]
+		var tile_value = atlas[index][I.CELLVALUE]
+
+		highlight_tile.position = new_position
+		highlight_tile.position.y += tileoffsets[tile_value]
+		if index > layerindexvalue:
+			highlight_tile.position.y += 17
+
+#align camera to new position of the tile it was looking at
 	camera.position = _rotate_position(camera.position, direction)
-	
-	_add_walkable_tiles()
-	_connect_walkable_tiles()
 	
 	print("Orientation is ", orientation, " Direction was ", direction)
 	print("--ROTATE-- ", direction,  " took ", OS.get_system_time_msecs() - time, " ms to run")
@@ -546,7 +504,7 @@ func _find_moverange():
 		move_range -= 1
 	array2.remove(array2.find(selecttileindex))
 	_clear_highlights()
-	set_highlights(array2)
+	set_highlights(array2, blue)
 
 	print("_find_moverange ran in ", OS.get_system_time_msecs() -time, "ms.")
 func _find_moverange_slow():
@@ -576,19 +534,16 @@ func _find_moverange_slow():
 					origintiles.append(ii)
 			filledtiles.append(i)
 
+		move_range -= 1
+		set_highlights(searchtiles, blue)
+		set_highlights(origintiles, green)
 		searchtiles = origintiles
 		origintiles = []
-		move_range -= 1
-		for h in used_highlights:
-			if h[0].modulate != Color8(0,0,255,255):
-				h[0].modulate = Color8(0,0,255,255)
-		set_highlights(searchtiles, Color8(0,255,0,255))
 		timer.start()
 		yield(timer,"timeout")
 	ignoremouseclicks = false
 	runningfunc -= 1
 	print("_find_moverange_slow ran in ", OS.get_system_time_msecs() -time, "ms.")
-	print("used highlights size = ", used_highlights.size())
 
 func _on_Timer_timeout():
 	pass # Replace with function body.
@@ -635,6 +590,12 @@ func index_to_vector(index, vec2=false):
 	point.x     = index - (point.y * map_size.x)
 	return (point)
 
+func rotated_index_to_original(index):
+	var value = 4 - (orientation / 90)
+	if value == 4:
+		value = 0
+	var unrotated_index = atlas[index][I.INDEX + value]
+	return unrotated_index
 
 #=========================== TEMPORARY FUNCTIONS ==============================#
 #==============================================================================#
@@ -649,28 +610,35 @@ func _on_HSlider_value_changed(value):
 """
 Notes for future me:
 
-
-COORDS: Means tilemap coordinates, usually something like (5,7)
+COORDS: 
+	Means tilemap coordinates, usually something like (5,7)
 	Coords should never be negative, as the entire gamespace is positive intgers
 
-POSITION: Means global coordinates, usually look like (-128, 33)
+POSITION: 
+	Means global coordinates, usually look like (-128, 33)
 	Position x coordinates can be negative as the middle of the screen is x = 0
 
-INDEX: this is the A* index value of a tile/position. This is the master
-coordinate used in all other calculations, it is used to connect everything together
-so please make sure to sure index values whenever possible and only convert to
-other coordinates when absolutely necessary
+INDEX: 
+	this is the A* index value of a tile/position. This is the master
+	coordinate used in all other calculations, it is used to connect everything together
+	so please make sure to sure index values whenever possible and only convert to
+	other coordinates when absolutely necessary
 
-This implementation of A* is quite different from my previous ones as this one
-needed to be able to work with rotations as well, which was impossible on the
-old system.
+	This implementation of A* is quite different from my previous ones as this one
+	needed to be able to work with rotations as well, which was impossible on the
+	old system.
 
-On this system the A* is only ever drawn once, when the map is loaded, 
-when the map is rotated (And thus all the tilemap coordinates/indexes change)
-A* uses the main dictionary to understand what the true index value is of the
-point that's selected.
+	On this system the A* is only ever drawn once, when the map is loaded, 
+	when the map is rotated (And thus all the tilemap coordinates/indexes change)
+	A* uses the main dictionary to understand what the true index value is of the
+	point that's selected.
 
-in essence A* never needs to change, instead we just convert the altered map
-coordinates to their original value (Orientation 0)
+	in essence A* never needs to change, instead we just convert the altered map
+	coordinates to their original value (Orientation 0)
+
+ATLAS: 
+	is the master dictionary that stores all the information about the map in
+	one location. Whenever anything on the map changes, that change MUST be reflected
+	in the Atlas as well, as everything in the game refers to the atlas for information.
 
 """

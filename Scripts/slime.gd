@@ -4,6 +4,7 @@ enum slimespecies {RED, GREEN, BLUE, YELLOW, PINK, PURPLE, BLACK, WHITE}
 
 onready var slime_shader = Shader.new()
 onready var slime_material = ShaderMaterial.new()
+onready var body = $KinematicBody2D
 
 export(slimespecies) var slime_color
 
@@ -59,13 +60,45 @@ var palettes =[
 	const vec4 replace_outline = vec4(""", 255.0/255,",",  255.0/255,",", 255.0/255,""", 1);
 	""")
 	]
+var counter = 0
+var movement_choices = [
+	Vector2(0, 1),
+	Vector2(1, 0),
+	Vector2(0, -1),
+	Vector2(-1, 0),
+	Vector2(0, 0),
+	Vector2(0, 0),
+	Vector2(0, 0),
+	Vector2(0, 0),
+	Vector2(0, 0),
+	Vector2(0, 0),
+]
+var velocity = Vector2.ZERO
+var speed = 80
 
 func _ready():
+	randomize()
+#Shader Stuff
 	slime_palette = palettes[slime_color]
-	$AnimatedSprite.material = slime_material
+	$KinematicBody2D/AnimatedSprite.material = slime_material
 	slime_material.shader = slime_shader
 	set_shaderscript()
-	$AnimatedSprite.playing = true
+	$KinematicBody2D/AnimatedSprite.playing = true
+#PASS
+	velocity = movement_choices[randi() % 4] * speed
+
+
+func _physics_process(delta):
+	slime_wander(delta)
+
+
+func slime_wander(delta):
+	counter += delta
+	
+	if counter >= rand_range(4.0, 20.0):
+		velocity = movement_choices[randi() % movement_choices.size()] * speed
+		counter = 0
+	body.move_and_slide(velocity / 6)
 
 
 func set_shaderscript():

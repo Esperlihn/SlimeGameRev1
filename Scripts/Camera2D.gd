@@ -24,15 +24,14 @@ signal rotate_left
 func _ready():
 	zoom  = Vector2(0.6, 0.6)
 	scale = zoom
-	if level != null:
-		if connect("rotate_right", level, "_on_Rotate_Right_pressed") != 0:
-			print("Rotate right function failed to connect to level")
-		if connect("rotate_left", level, "_on_Rotate_Left_pressed") != 0:
-			print("Rotate left function failed to connect to level")
-	else:
-		zoom_factor = Vector2(0.05, 0.05)
-		zoom_out_max = Vector2(0.5, 0.5)
-		zoom_in_min = Vector2(0.1, 0.1)
+	if connect("rotate_right", level, "_on_Rotate_Right_pressed") != 0:
+		print("Rotate right function failed to connect to level")
+	if connect("rotate_left", level, "_on_Rotate_Left_pressed") != 0:
+		print("Rotate left function failed to connect to level")
+#	else:
+#		zoom_factor = Vector2(0.05, 0.05)
+#		zoom_out_max = Vector2(0.5, 0.5)
+#		zoom_in_min = Vector2(0.1, 0.1)
 
 func _physics_process(delta):
 #Basic timer
@@ -87,16 +86,15 @@ func _unhandled_input(event):
 		mouse_held = null
 		mouse_move = 0
 
-	if level != null:
-	# Right click to rotate map
-		if event.is_action_pressed("mouse_right_click"):
-			if rotate_right == true:
-				self.emit_signal("rotate_right")
-				return
-				
-			if rotate_right == false:
-				self.emit_signal("rotate_left")
-				return
+# Right click to rotate map
+	if event.is_action_pressed("mouse_right_click"):
+		if rotate_right == true:
+			self.emit_signal("rotate_right")
+			return
+			
+		if rotate_right == false:
+			self.emit_signal("rotate_left")
+			return
 
 
 func _on_Area2D_mouse_entered():
