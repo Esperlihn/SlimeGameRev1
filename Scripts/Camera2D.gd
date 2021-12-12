@@ -28,14 +28,9 @@ func _ready():
 		print("Rotate right function failed to connect to level")
 	if connect("rotate_left", level, "_on_Rotate_Left_pressed") != 0:
 		print("Rotate left function failed to connect to level")
-#	else:
-#		zoom_factor = Vector2(0.05, 0.05)
-#		zoom_out_max = Vector2(0.5, 0.5)
-#		zoom_in_min = Vector2(0.1, 0.1)
 
 func _physics_process(delta):
 #Basic timer
-	$FPSCOUNTER.text = str("FPS: ", 1 / delta)
 	counter += delta
 	if counter >= 1:
 		counter = 0

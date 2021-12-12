@@ -1,0 +1,28 @@
+[gd_scene format=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="Control"]
+margin_right = 1912.0
+margin_bottom = 1072.0
+max_columns = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/ItemList"]
+margin_right = 64.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer2" type="PanelContainer" parent="Control/ItemList"]
+margin_left = 64.0
+margin_right = 128.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3

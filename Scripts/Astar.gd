@@ -35,10 +35,10 @@ onready var map_center         = Vector2((map_size.x / 2) - 0.5, (map_size.y / 2
 onready var layerindexvalue    = map_size.x * map_size.y
 onready var astar              = AStar.new()
 onready var layers             = get_node("..").get_children()
-onready var highlight          = preload("res://Scenes/Highlight Tile.tscn")
+onready var highlight          = preload("res://Scenes/Objects/Highlight Tile.tscn")
 onready var camera             = get_node("../../Interactive HUD")
 onready var timer              = get_node("../../Timer")
-#onready var selecttile         = preload("res://Scenes/Select_highlight.tscn")
+onready var speed_slider       = get_node("../../HUD/VBoxContainer/HBoxContainer/VBoxContainer/HSlider")
 
 
 #=================================== DEBUG ====================================#
@@ -49,37 +49,30 @@ export(int, 10, 20) var foo #export between range 10-20
 #==============================================================================#
 var layers_ascending           = []
 var orientation                = 0
-#var unwalkable_tiles           = []
 var walkable_tiles             = []
 var swimmable_tiles            = [1]
 var used_tiles                 = []
 var buffer_array               = []
 
 var highlights                 = []
-#var used_highlights            = []
 var highlightcount             = 0
 var tileoffsets                = [0, 8, 0, 4, -4, 0]
 var index_max_value            = 0
 var atlas                       = {}
 var selecttileindex            = 0
 
-var moverange                  = 25
+var moverange                  = 5
 var jumpheight                 = 1
 var ignoremouseclicks          = false
 var runningfunc                = 0
 
-var white                      = Color.white
-var blue                       = Color8(0,0,255,255)
-var green                      = Color8(0,255,0,255)
 #==============================================================================#
 #=========================== STARTUP ONLY FUNCTIONS ===========================#
 #==============================================================================#
 
 func _ready():
-	OS.center_window()
-	
-	
 	var time = OS.get_system_time_msecs()
+	timer.wait_time = (speed_slider.max_value - speed_slider.value) / 100.0
 	print(linebreak)
 	
 	camera.visible = true
@@ -292,7 +285,7 @@ func _unhandled_input(event):
 			return
 		else:
 			_clear_highlights()
-			set_highlights(_identify_tile(get_global_mouse_position()), blue)
+			set_highlights(_identify_tile(get_global_mouse_position()), Color.blue)
 			if selecttileindex != 0:
 				print(selecttileindex)
 	if event.is_action_pressed("ui_f11"):
@@ -393,6 +386,9 @@ func set_highlights(array, color):
 
 	for index in array:
 		highlight = atlas[index][I.HIGHLIGHT]
+		if highlight == null:
+			print("Non-navicable tile")
+			return
 		highlight.modulate = color
 		highlight.visible = true
 	print("Set highlights took ", OS.get_system_time_msecs() - time, "ms to run")
@@ -476,12 +472,11 @@ func _on_Rotate_Left_pressed():
 	_rotate_map("left")
 	return
 
-func _find_moverange():
+func _find_moverange(move_range = moverange):
 	var time = OS.get_system_time_msecs()
 	var array1 = []
 	var array2 = []
 	var indexes = [selecttileindex]
-	var move_range = 500
 
 
 	while move_range >= 0:
@@ -504,18 +499,17 @@ func _find_moverange():
 		move_range -= 1
 	array2.remove(array2.find(selecttileindex))
 	_clear_highlights()
-	set_highlights(array2, blue)
+	set_highlights(array2, Color.blue)
 
 	print("_find_moverange ran in ", OS.get_system_time_msecs() -time, "ms.")
-func _find_moverange_slow():
-	if runningfunc != 0:
-		return
+func _find_moverange_slow(move_range = moverange):
+#	if runningfunc != 0:
+#		return
 	var time = OS.get_system_time_msecs()
 	var origintiles = []
 	var filledtiles = []
 	var searchtiles = [selecttileindex]
-	var move_range = 500
-	runningfunc += 1
+#	runningfunc += 1
 	
 	ignoremouseclicks = true
 	_clear_highlights()
@@ -535,8 +529,8 @@ func _find_moverange_slow():
 			filledtiles.append(i)
 
 		move_range -= 1
-		set_highlights(searchtiles, blue)
-		set_highlights(origintiles, green)
+		set_highlights(searchtiles, Color.blue)
+		set_highlights(origintiles, Color.green)
 		searchtiles = origintiles
 		origintiles = []
 		timer.start()
@@ -601,9 +595,12 @@ func rotated_index_to_original(index):
 #==============================================================================#
 
 func _on_HSlider_value_changed(value):
-	get_node("../../Interactive HUD/RichTextLabel").bbcode_text =\
-	str("[center]Speed = ", value, "[/center]")
-	timer.wait_time = 1/value
+	get_node("../../HUD/VBoxContainer/HBoxContainer/VBoxContainer/RichTextLabel").bbcode_text =\
+	str("[center]Speed = ", value / 2.5, "[/center]")
+	if value >= speed_slider.max_value:
+		value -= 1
+	timer.wait_time = (speed_slider.max_value - value) / 100.0
+	print(timer.wait_time)
 
 #==============================================================================#
 #==============================================================================#

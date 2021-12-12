@@ -5,6 +5,7 @@ var seconds = 0
 var curr_time = 0
 
 func _ready():
+	OS.center_window()
 	print("Functions.gd loaded")
 
 func path_to_self(node):

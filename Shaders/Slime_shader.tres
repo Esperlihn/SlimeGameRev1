@@ -1,0 +1,27 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+	const vec4 original_shadow  = vec4(0.639, 0.655, 0.761, 1);
+	const vec4 original_body    = vec4(0.227, 0.247, 0.369, 1);
+	const vec4 original_outline = vec4(0.408, 0.435, 0.600, 1);
+	const vec4 replace_shadow   = vec4(155.0/255.0, 14.0/255.0, 62.0/255.0, 1);
+	const vec4 replace_body     = vec4(196.0/255.0, 28.0/255.0, 56.0/255.0, 1);
+	const vec4 replace_outline  = vec4(230.0/255.0, 69.0/255.0, 57.0/255.0, 1);
+	
+	const float precision = 0.1;
+
+	vec4 swap_color(vec4 color){
+		vec4 original_colors[3] = vec4[3] (original_shadow, original_body, original_outline);
+		vec4 replace_colors[3] = vec4[3] (replace_shadow, replace_body, replace_outline);
+		for (int i = 0; i < 3; i ++) {
+			if (distance(color, original_colors[i]) <= precision){
+				return replace_colors[i];
+			}
+		}
+		return color;
+	}
+//
+//	void fragment() {
+//		COLOR = swap_color(texture(TEXTURE, UV));"

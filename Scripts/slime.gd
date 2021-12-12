@@ -88,8 +88,9 @@ func _ready():
 	velocity = movement_choices[randi() % 4] * speed
 
 
-func _physics_process(delta):
-	slime_wander(delta)
+func _physics_process(_delta):
+#	slime_wander(delta)
+	pass
 
 
 func slime_wander(delta):

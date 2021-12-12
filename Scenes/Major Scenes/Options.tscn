@@ -1,0 +1,250 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Instances/Main_menu_background.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Options.gd" type="Script" id=2]
+
+[node name="Options" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" parent="." instance=ExtResource( 1 )]
+margin_top = 410.0
+margin_right = 751.0
+margin_bottom = 1134.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 720.0
+margin_bottom = 393.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 189.0
+margin_bottom = 393.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 193.0
+margin_right = 478.0
+margin_bottom = 393.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+margin_right = 285.0
+margin_bottom = 77.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Settings" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 81.0
+margin_right = 285.0
+margin_bottom = 235.0
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/Settings"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 285.0
+margin_bottom = 28.0
+size_flags_vertical = 3
+bbcode_enabled = true
+bbcode_text = "[center] Options [/center]"
+text = " Options "
+fit_content_height = true
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resolution" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2/Settings"]
+margin_top = 32.0
+margin_right = 285.0
+margin_bottom = 77.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Resolution" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/Settings/Resolution"]
+self_modulate = Color( 0, 0, 0, 1 )
+margin_right = 140.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+bbcode_enabled = true
+bbcode_text = "[center]
+Resolution
+[/center]"
+text = "
+Resolution
+"
+fit_content_height = true
+scroll_active = false
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer/VBoxContainer2/Settings/Resolution"]
+margin_left = 144.0
+margin_right = 285.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+text = "720 x 410"
+align = 1
+
+[node name="Fullscreen_Toggle" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2/Settings"]
+margin_top = 81.0
+margin_right = 285.0
+margin_bottom = 126.0
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_Toggle"]
+margin_right = 60.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.7
+
+[node name="Fullscreen" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_Toggle"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 64.0
+margin_right = 151.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 10, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+bbcode_text = " 
+Fullscreen 
+"
+text = " 
+Fullscreen 
+"
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer3" type="MarginContainer" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_Toggle"]
+margin_left = 155.0
+margin_right = 164.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="FullScreen" type="CheckBox" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_Toggle"]
+margin_left = 168.0
+margin_right = 211.0
+margin_bottom = 45.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_Toggle"]
+margin_left = 215.0
+margin_right = 285.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="Fullscreen_borderless" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2/Settings"]
+margin_top = 130.0
+margin_right = 285.0
+margin_bottom = 154.0
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_borderless"]
+margin_right = 60.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.7
+
+[node name="Borderless" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_borderless"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 64.0
+margin_right = 151.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 10, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Borderless"
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer3" type="MarginContainer" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_borderless"]
+margin_left = 155.0
+margin_right = 164.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="Borderless_toggle" type="CheckBox" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_borderless"]
+margin_left = 168.0
+margin_right = 211.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/VBoxContainer2/Settings/Fullscreen_borderless"]
+margin_left = 215.0
+margin_right = 285.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 239.0
+margin_right = 285.0
+margin_bottom = 393.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_right = 85.0
+margin_bottom = 154.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_left = 89.0
+margin_right = 195.0
+margin_bottom = 154.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer2"]
+margin_right = 106.0
+margin_bottom = 63.0
+size_flags_vertical = 3
+
+[node name="Back" type="Button" parent="HBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer2"]
+margin_top = 67.0
+margin_right = 106.0
+margin_bottom = 87.0
+text = "Back"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer2"]
+margin_top = 91.0
+margin_right = 106.0
+margin_bottom = 154.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_left = 199.0
+margin_right = 285.0
+margin_bottom = 154.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 482.0
+margin_right = 720.0
+margin_bottom = 393.0
+size_flags_horizontal = 3
+
+[connection signal="item_selected" from="HBoxContainer/VBoxContainer2/Settings/Resolution/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="toggled" from="HBoxContainer/VBoxContainer2/Settings/Fullscreen_Toggle/FullScreen" to="." method="_on_FullScreen_toggled"]
+[connection signal="toggled" from="HBoxContainer/VBoxContainer2/Settings/Fullscreen_borderless/Borderless_toggle" to="." method="_on_Borderless_toggle_toggled"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer2/Back" to="." method="_on_Back_pressed"]

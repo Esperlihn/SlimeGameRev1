@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="SlimeGameRev1"
-run/main_scene="res://Scenes/Level.tscn"
+run/main_scene="res://Scenes/Major Scenes/Battle.tscn"
 config/icon="res://Resources/icon.png"
 
 [autoload]
@@ -20,16 +20,19 @@ Functions="*res://Scripts/Singletons/Functions.gd"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
-window/size/test_width=720
-window/size/test_height=410
+window/size/width=640
+window/size/height=360
+window/size/resizable=false
 window/stretch/mode="2d"
-window/stretch/aspect="keep"
+window/stretch/aspect="expand"
 
 [global]
 
 touch=true
+
+[gui]
+
+theme/custom="res://Default_THeme.tres"
 
 [input]
 

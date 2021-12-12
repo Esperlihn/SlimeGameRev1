@@ -1,0 +1,147 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/Main_Menu.gd" type="Script" id=1]
+[ext_resource path="res://Default_THeme.tres" type="Theme" id=2]
+[ext_resource path="res://Scenes/Instances/Main_menu_background.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Resources/UI/Main_Menu_Background.tres" type="Texture" id=4]
+
+[node name="Node" type="Node"]
+script = ExtResource( 1 )
+
+[node name="TextureRect" parent="." instance=ExtResource( 3 )]
+margin_top = 360.0
+margin_right = 701.0
+margin_bottom = 1000.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 640.0
+margin_bottom = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 633.0
+margin_bottom = 353.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left Margin" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+margin_right = 206.0
+margin_bottom = 346.0
+size_flags_horizontal = 3
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/HBoxContainer/Left Margin"]
+visible = false
+margin_right = 232.0
+margin_bottom = 396.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title Options" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0 )
+show_behind_parent = true
+margin_left = 210.0
+margin_right = 416.0
+margin_bottom = 346.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Top Margin" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Title Options"]
+margin_right = 206.0
+margin_bottom = 116.0
+size_flags_vertical = 3
+
+[node name="Title" type="RichTextLabel" parent="PanelContainer/HBoxContainer/Title Options"]
+modulate = Color( 0.00784314, 0.00784314, 0.00784314, 1 )
+margin_top = 120.0
+margin_right = 206.0
+margin_bottom = 135.0
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[center] Slime Game [/center]"
+text = " Slime Game "
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title2" type="RichTextLabel" parent="PanelContainer/HBoxContainer/Title Options"]
+modulate = Color( 0.00784314, 0.00784314, 0.00784314, 1 )
+margin_top = 139.0
+margin_right = 206.0
+margin_bottom = 154.0
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Button" parent="PanelContainer/HBoxContainer/Title Options"]
+margin_top = 158.0
+margin_right = 206.0
+margin_bottom = 178.0
+text = "Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Button" parent="PanelContainer/HBoxContainer/Title Options"]
+margin_top = 182.0
+margin_right = 206.0
+margin_bottom = 202.0
+text = "Options"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Exit" type="Button" parent="PanelContainer/HBoxContainer/Title Options"]
+margin_top = 206.0
+margin_right = 206.0
+margin_bottom = 226.0
+text = "Exit Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bottom Margin" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Title Options"]
+margin_top = 230.0
+margin_right = 206.0
+margin_bottom = 346.0
+size_flags_vertical = 3
+
+[node name="Right Margin" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+margin_left = 420.0
+margin_right = 626.0
+margin_bottom = 346.0
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer/Right Margin"]
+visible = false
+margin_right = 233.0
+margin_bottom = 396.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Title Options/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Title Options/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Title Options/Exit" to="." method="_on_Exit_pressed"]
