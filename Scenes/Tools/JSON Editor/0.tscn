@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Value_Node.gd" type="Script" id=1]
+
+[sub_resource type="Theme" id=1]
+
+[node name="0" type="HBoxContainer"]
+margin_right = 170.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Key" type="TextEdit" parent="."]
+margin_right = 71.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 50, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.75
+readonly = true
+wrap_enabled = true
+
+[node name="Value" type="LineEdit" parent="."]
+margin_left = 75.0
+margin_right = 170.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+editable = false

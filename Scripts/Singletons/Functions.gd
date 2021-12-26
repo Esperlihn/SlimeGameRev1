@@ -3,10 +3,12 @@ extends Node
 var counter = 0
 var seconds = 0
 var curr_time = 0
+var run_once = false
+var linebreak = "====================================================="
 
 func _ready():
 	OS.center_window()
-	print("Functions.gd loaded")
+	print(Log.logger(str("Functions.gd loaded\n", linebreak)))
 
 func path_to_self(node):
 	return get_tree().root.get_path_to(node)
@@ -16,8 +18,6 @@ func _process(delta):
 	if counter >= 1:
 		counter = 0
 		seconds += 1
-#		print("Memory usage = ", OS.get_static_memory_usage()/float(100000), "Mb")
-#		print(OS.get_power_percent_left())
 
 func add_arrays(a1, a2):
 	var array = []
@@ -74,3 +74,15 @@ func get_time():
 func vec3_to_vec2(vec3):
 	var vec2 = Vector2(vec3.x, vec3.y)
 	return vec2
+
+func comma_sep(number):
+	var string = str(number)
+	var mod = string.length() % 3
+	var res = ""
+
+	for i in range(0, string.length()):
+		if i != 0 && i % 3 == mod:
+			res += ","
+		res += string[i]
+
+	return res

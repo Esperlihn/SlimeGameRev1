@@ -1,0 +1,633 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/JSON_Editor.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Node_position.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Tools/JSON Editor/0.tscn" type="PackedScene" id=4]
+
+[node name="JSON_Editor" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialog" type="FileDialog" parent="Panel"]
+margin_right = 315.0
+margin_bottom = 130.0
+window_title = "Open a File"
+mode = 0
+access = 2
+current_dir = "/Users/esper/Dropbox/Godot Files/SlimeGameRev1/Resources/Data"
+current_path = "/Users/esper/Dropbox/Godot Files/SlimeGameRev1/Resources/Data/"
+script = ExtResource( 3 )
+gpname = "JSON_Editor"
+
+[node name="WindowDialog" type="PopupDialog" parent="Panel"]
+margin_right = 360.0
+margin_bottom = 152.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="Text_Input" type="LineEdit" parent="Panel/WindowDialog"]
+margin_left = 114.0
+margin_top = 65.0
+margin_right = 244.0
+margin_bottom = 89.0
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Text" type="RichTextLabel" parent="Panel/WindowDialog"]
+margin_top = 48.0
+margin_right = 360.0
+margin_bottom = 65.0
+bbcode_enabled = true
+bbcode_text = "[center]Text"
+text = "Text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ok" type="Button" parent="Panel/WindowDialog"]
+margin_left = 160.0
+margin_top = 102.0
+margin_right = 200.0
+margin_bottom = 122.0
+text = "OK"
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Panel/MarginContainer"]
+margin_right = 630.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/HSplitContainer"]
+margin_right = 132.0
+margin_bottom = 350.0
+
+[node name="ItemLIst" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer"]
+margin_right = 132.0
+margin_bottom = 350.0
+
+[node name="Tab" type="TabContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst"]
+margin_right = 132.0
+margin_bottom = 294.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+drag_to_rearrange_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/Tab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="H2" type="HBoxContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst"]
+margin_top = 298.0
+margin_right = 132.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="H" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2"]
+margin_right = 64.0
+margin_bottom = 52.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H"]
+margin_right = 64.0
+size_flags_vertical = 3
+
+[node name="AddKeyButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H"]
+margin_top = 4.0
+margin_right = 64.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Add"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="RemoveKeyButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H"]
+margin_top = 28.0
+margin_right = 64.0
+margin_bottom = 48.0
+text = "Remove"
+script = ExtResource( 3 )
+gpname = "JSON_Editor"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H"]
+margin_top = 52.0
+margin_right = 64.0
+margin_bottom = 52.0
+size_flags_vertical = 3
+
+[node name="H2" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2"]
+margin_left = 68.0
+margin_right = 132.0
+margin_bottom = 52.0
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H2"]
+margin_right = 64.0
+size_flags_vertical = 3
+
+[node name="CopyKeyButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H2"]
+margin_top = 4.0
+margin_right = 64.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+disabled = true
+text = "Copy"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="RenameKeyButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H2"]
+margin_top = 28.0
+margin_right = 64.0
+margin_bottom = 48.0
+disabled = true
+text = "Rename"
+script = ExtResource( 3 )
+gpname = "JSON_Editor"
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H2"]
+margin_top = 52.0
+margin_right = 64.0
+margin_bottom = 52.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer"]
+margin_left = 144.0
+margin_right = 630.0
+margin_bottom = 350.0
+
+[node name="Display" type="HBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer"]
+margin_right = 486.0
+margin_bottom = 274.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="V" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display"]
+margin_right = 477.0
+margin_bottom = 274.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="V" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V"]
+margin_right = 477.0
+margin_bottom = 23.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="S" type="ScrollContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V"]
+margin_top = 27.0
+margin_right = 477.0
+margin_bottom = 264.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S"]
+margin_right = 465.0
+margin_bottom = 248.0
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="0" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_right = 230.0
+margin_bottom = 24.0
+
+[node name="1" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_right = 464.0
+margin_bottom = 24.0
+
+[node name="2" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_top = 28.0
+margin_right = 230.0
+margin_bottom = 52.0
+
+[node name="3" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_top = 28.0
+margin_right = 464.0
+margin_bottom = 52.0
+
+[node name="4" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_top = 56.0
+margin_right = 230.0
+margin_bottom = 80.0
+
+[node name="5" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_top = 56.0
+margin_right = 464.0
+margin_bottom = 80.0
+
+[node name="6" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_top = 84.0
+margin_right = 230.0
+margin_bottom = 108.0
+
+[node name="7" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_top = 84.0
+margin_right = 464.0
+margin_bottom = 108.0
+
+[node name="8" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_top = 112.0
+margin_right = 230.0
+margin_bottom = 136.0
+
+[node name="9" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_top = 112.0
+margin_right = 464.0
+margin_bottom = 136.0
+
+[node name="10" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_top = 140.0
+margin_right = 230.0
+margin_bottom = 164.0
+
+[node name="11" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_top = 140.0
+margin_right = 464.0
+margin_bottom = 164.0
+
+[node name="12" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_top = 168.0
+margin_right = 230.0
+margin_bottom = 192.0
+
+[node name="13" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_top = 168.0
+margin_right = 464.0
+margin_bottom = 192.0
+
+[node name="14" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_top = 196.0
+margin_right = 230.0
+margin_bottom = 220.0
+
+[node name="15" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_top = 196.0
+margin_right = 464.0
+margin_bottom = 220.0
+
+[node name="16" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_top = 224.0
+margin_right = 230.0
+margin_bottom = 248.0
+
+[node name="17" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V/S/GridContainer" instance=ExtResource( 4 )]
+margin_left = 234.0
+margin_top = 224.0
+margin_right = 464.0
+margin_bottom = 248.0
+
+[node name="V2" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display/V"]
+margin_top = 268.0
+margin_right = 477.0
+margin_bottom = 273.0
+rect_min_size = Vector2( 0, 5 )
+size_flags_stretch_ratio = 0.09
+
+[node name="Right_Margin" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/Display"]
+margin_left = 481.0
+margin_right = 486.0
+margin_bottom = 274.0
+rect_min_size = Vector2( 5, 0 )
+
+[node name="ButtonsControls" type="HBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer"]
+margin_top = 278.0
+margin_right = 486.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.17
+
+[node name="Rename_File" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls"]
+margin_right = 118.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.3
+
+[node name="Filename" type="LineEdit" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Rename_File"]
+margin_right = 118.0
+margin_bottom = 24.0
+focus_mode = 0
+editable = false
+selecting_enabled = false
+caret_blink = true
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="Change_Name_Button" type="CheckButton" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Rename_File"]
+margin_top = 28.0
+margin_right = 118.0
+margin_bottom = 68.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Edit"
+script = ExtResource( 3 )
+gpname = "JSON_Editor"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Rename_File"]
+margin_top = 72.0
+margin_right = 118.0
+margin_bottom = 72.0
+size_flags_vertical = 3
+
+[node name="Sort_Filter" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls"]
+margin_left = 122.0
+margin_right = 168.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Left_Margin2" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Sort_Filter"]
+margin_right = 46.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 5, 0 )
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="SortButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Sort_Filter"]
+margin_top = 14.0
+margin_right = 46.0
+margin_bottom = 34.0
+disabled = true
+text = "Sort"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="FilterButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Sort_Filter"]
+margin_top = 38.0
+margin_right = 46.0
+margin_bottom = 58.0
+disabled = true
+text = "Filter"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="Left_Margin3" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Sort_Filter"]
+margin_top = 62.0
+margin_right = 46.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 5, 0 )
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="Parameters" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls"]
+margin_left = 172.0
+margin_right = 290.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.3
+
+[node name="Left_Margin4" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Parameters"]
+margin_right = 118.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 5, 0 )
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="AddParameterButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Parameters"]
+margin_top = 14.0
+margin_right = 118.0
+margin_bottom = 34.0
+text = "+Parameter"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="RemoveParameterButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Parameters"]
+margin_top = 38.0
+margin_right = 118.0
+margin_bottom = 58.0
+text = "- Parameter"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="Left_Margin5" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Parameters"]
+margin_top = 62.0
+margin_right = 118.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 5, 0 )
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="Save_Load_Data" type="HBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls"]
+margin_left = 294.0
+margin_right = 477.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="H" type="HBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data"]
+margin_right = 7.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="V" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data"]
+margin_left = 11.0
+margin_right = 88.0
+margin_bottom = 72.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V"]
+margin_right = 77.0
+margin_bottom = 10.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="ClearDataButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V"]
+margin_top = 14.0
+margin_right = 77.0
+margin_bottom = 34.0
+text = "Clear Data"
+script = ExtResource( 3 )
+gpname = "JSON_Editor"
+
+[node name="FileSaveButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V"]
+margin_top = 38.0
+margin_right = 77.0
+margin_bottom = 58.0
+text = "Save File"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="V2" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V"]
+margin_top = 62.0
+margin_right = 77.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="H2" type="HBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data"]
+margin_left = 92.0
+margin_right = 99.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="V2" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data"]
+margin_left = 103.0
+margin_right = 172.0
+margin_bottom = 72.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V2"]
+margin_right = 69.0
+margin_bottom = 10.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="NewFileButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V2"]
+margin_top = 14.0
+margin_right = 69.0
+margin_bottom = 34.0
+disabled = true
+text = "New File"
+script = ExtResource( 3 )
+gpname = "JSON_Editor"
+
+[node name="FileLoadButton" type="Button" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V2"]
+margin_top = 38.0
+margin_right = 69.0
+margin_bottom = 58.0
+text = "Load File"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "JSON_Editor"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V2"]
+margin_top = 62.0
+margin_right = 69.0
+margin_bottom = 72.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="H3" type="HBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data"]
+margin_left = 176.0
+margin_right = 183.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RIght_Margin" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls"]
+margin_left = 481.0
+margin_right = 486.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 5, 0 )
+size_flags_stretch_ratio = 0.01
+
+[node name="Print" type="Button" parent="."]
+margin_left = 531.0
+margin_top = 4.0
+margin_right = 595.0
+margin_bottom = 31.0
+text = "Print"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="file_selected" from="Panel/FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="text_entered" from="Panel/WindowDialog/Text_Input" to="." method="_on_popup_text_entered"]
+[connection signal="pressed" from="Panel/WindowDialog/Ok" to="." method="_on_popup_text_entered" binds= [ false ]]
+[connection signal="item_selected" from="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/Tab/ItemList" to="." method="_on_ItemList_item_selected"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H/AddKeyButton" to="." method="_on_AddKeyButton_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H/RemoveKeyButton" to="." method="_on_RemoveKeyButton_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H2/CopyKeyButton" to="." method="_on_AddKeyButton_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/MarginContainer/ItemLIst/H2/H2/RenameKeyButton" to="." method="_on_RemoveKeyButton_pressed"]
+[connection signal="focus_exited" from="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Rename_File/Filename" to="." method="_on_Filename_focus_exited"]
+[connection signal="text_entered" from="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Rename_File/Filename" to="." method="_on_Filename_text_entered"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Rename_File/Change_Name_Button" to="." method="_on_Change_Name_Button_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Parameters/AddParameterButton" to="." method="_on_AddParameterButton_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Parameters/RemoveParameterButton" to="." method="_on_RemoveParameterButton_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V/ClearDataButton" to="." method="_on_ClearDataButton_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V/FileSaveButton" to="." method="_on_FileSaveButton_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HSplitContainer/VBoxContainer/ButtonsControls/Save_Load_Data/V2/FileLoadButton" to="." method="_on_FileLoadButton_pressed"]
+[connection signal="pressed" from="Print" to="." method="_on_Print_pressed"]

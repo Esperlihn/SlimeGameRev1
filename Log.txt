@@ -1,0 +1,20 @@
+Functions.gd loaded
+=====================================================
+populate_atlas ran in 68 ms
+Used tiles ran in 4 ms
+add_walkable_tiles ran in 4 ms
+connect_walkable_tiles ran in 10 ms
+spawn_highlights ran in 36 ms
+
+==============================
+
+Map origin: (0, 0)
+Map edge: (32, 32)
+Total Used tiles = 1140
+Walkable Tiles = 550
+Total potential index points = 9216
+
+==============================
+System startup took 129 ms
+==============================
+

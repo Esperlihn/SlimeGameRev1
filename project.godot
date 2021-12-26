@@ -11,28 +11,37 @@ config_version=4
 [application]
 
 config/name="SlimeGameRev1"
-run/main_scene="res://Scenes/Major Scenes/Battle.tscn"
+run/main_scene="res://Scenes/Major Scenes/Main_Menu.tscn"
 config/icon="res://Resources/icon.png"
 
 [autoload]
 
 Functions="*res://Scripts/Singletons/Functions.gd"
+Log="*res://Scripts/Singletons/Log.gd"
+SignalController="*res://Scripts/Singletons/Signal_Controller.gd"
+Defaults="*res://Scripts/Singletons/Defaults.gd"
+
+[debug]
+
+settings/fps/force_fps=30
 
 [display]
 
 window/size/width=640
 window/size/height=360
-window/size/resizable=false
 window/stretch/mode="2d"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep"
 
 [global]
 
 touch=true
 
-[gui]
+[importer_defaults]
 
-theme/custom="res://Default_THeme.tres"
+texture={
+"detect_3d": false,
+"flags/filter": false
+}
 
 [input]
 

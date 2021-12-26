@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 enum slimespecies {RED, GREEN, BLUE, YELLOW, PINK, PURPLE, BLACK, WHITE}
 

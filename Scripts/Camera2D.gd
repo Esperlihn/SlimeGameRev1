@@ -1,11 +1,22 @@
+"""
+This file is part of:
+Lihnpixel Games
+https://lihnpixel.ca
+***********************
+Copyright (c) 2020 -2021 Sukh Atwal
+"""
+
 extends Camera2D
 
-onready var level      = self.get_parent()
+export var gpname:String
+onready var level = \
+get_node(str(self.get_path()).substr(0, str(self.get_path()).\
+find(gpname)+gpname.length()))
 
 var counter         = 0
 var zoom_factor     = Vector2(0.2, 0.2)
 var zoom_in_min     = Vector2(0.3, 0.3)
-var zoom_out_max    = Vector2(0.9, 0.9)
+var zoom_out_max    = Vector2(2.4, 2.4)
 var rotate_right    = true
 var mouse_move
 var mouse_held
@@ -21,15 +32,13 @@ signal rotate_right
 signal rotate_left
 
 
-func _ready():
+func _ready() -> void:
 	zoom  = Vector2(0.6, 0.6)
 	scale = zoom
-	if connect("rotate_right", level, "_on_Rotate_Right_pressed") != 0:
-		print("Rotate right function failed to connect to level")
-	if connect("rotate_left", level, "_on_Rotate_Left_pressed") != 0:
-		print("Rotate left function failed to connect to level")
+	assert(!connect("rotate_right", level, "_on_Rotate_Right_pressed"), "Rotate right function failed to connect to level")
+	assert(!connect("rotate_left", level, "_on_Rotate_Left_pressed"), "Rotate left function failed to connect to level")
 
-func _physics_process(delta):
+func _physics_process(delta) -> void:
 #Basic timer
 	counter += delta
 	if counter >= 1:
@@ -54,7 +63,7 @@ func _physics_process(delta):
 	self.position = lerp(self.position, self.position + (velocity * delta), 1)
 
 
-func _unhandled_input(event):
+func _unhandled_input(event) -> void:
 #Zoom Out
 	if event.is_action_pressed("ui_page_down"):
 		if zoom >= zoom_out_max:
@@ -62,7 +71,7 @@ func _unhandled_input(event):
 		zoom += zoom_factor
 		scale = zoom
 		if debug == true:
-			print("Zoom = ", zoom, " scale = ", scale)
+			print(Log.logger(str("Zoom = ", zoom, " scale = ", scale)))
 #Zoom In
 	if event.is_action_pressed("ui_page_up"):
 		if zoom <= zoom_in_min:
@@ -70,7 +79,7 @@ func _unhandled_input(event):
 		zoom -= zoom_factor
 		scale = zoom
 		if debug == true:
-			print("Zoom = ", zoom, " scale = ", scale)
+			print(Log.logger(str("Zoom = ", zoom, " scale = ", scale)))
 
 #Mouse Click and drag functionality
 	if event.is_action_pressed("mouse_left_click") or event.is_action_pressed("mouse_middle_click"):
@@ -92,13 +101,8 @@ func _unhandled_input(event):
 			return
 
 
-func _on_Area2D_mouse_entered():
+func _on_Area2D_triggered(value) -> void:
 	if level != null:
-		rotate_right = true
+		rotate_right = value
 		if debug == true:
-			print(rotate_right)
-func _on_Area2D_mouse_exited():
-	if level != null:
-		rotate_right = false
-		if debug == true:
-			print(rotate_right)
+			print(Log.logger(rotate_right))

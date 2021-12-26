@@ -47,15 +47,18 @@ animations = [ {
 radius = 7.57493
 height = 9.60419
 
-[node name="Node2D" type="Node2D"]
+[node name="Slime" type="Control"]
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 frames = SubResource( 11 )
 animation = "Default"
-offset = Vector2( 0, -12 )
+offset = Vector2( 0, -6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 visible = false

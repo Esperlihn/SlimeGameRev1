@@ -1,8 +1,10 @@
 extends Control
 
+
+
 onready var resolution_button =\
  get_node("HBoxContainer/VBoxContainer2/Settings/Resolution/OptionButton")
-onready var main_menu = preload("res://Scenes/Major Scenes/Main_Menu.tscn")
+signal backpressed
 
 var resolutions = [
 	Vector2(640, 360),
@@ -17,14 +19,16 @@ var resolutions = [
 	Vector2(3840, 2160),
 	Vector2(4480, 2520),
 	Vector2(5120, 2880),
-	
 	]
 
 func _ready():
+	if connect("backpressed", get_node(".."), "_on_Options_pressed"):
+		printerr("Failed to connect options menu to main menu")
 	var index = -1
 	for i in resolutions:
 		index += 1
-		resolution_button.add_item(str(i.x, " x ", i.y))
+		resolution_button.add_item(str(i.x, " x ", i.y), index)
+		print(resolution_button.items[index])
 		if i > OS.get_screen_size():
 			resolution_button.set_item_disabled(index, true)
 
@@ -43,7 +47,7 @@ func _on_OptionButton_item_selected(index):
 	OS.center_window()
 
 func _on_Back_pressed():
-	assert(!get_tree().change_scene_to(main_menu))
+	emit_signal("backpressed")
 
 func _on_Borderless_toggle_toggled(_button_pressed):
 	if OS.window_borderless == true:

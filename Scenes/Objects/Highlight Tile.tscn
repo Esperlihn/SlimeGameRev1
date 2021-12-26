@@ -61,6 +61,7 @@ animations = [ {
 } ]
 
 [node name="Highlight Tile" type="Sprite"]
+visible = false
 
 [node name="Iso_Highlight" type="Sprite" parent="."]
 position = Vector2( 0, 16 )
@@ -74,7 +75,7 @@ anims/idle = SubResource( 1 )
 visible = false
 position = Vector2( 0, 16 )
 frames = SubResource( 10 )
-frame = 5
+frame = 1
 playing = true
 
 [node name="Index" type="RichTextLabel" parent="."]

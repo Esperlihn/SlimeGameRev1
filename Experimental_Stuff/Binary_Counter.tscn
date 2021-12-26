@@ -1,0 +1,781 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Experimental_Stuff/Binary_Counter.gd" type="Script" id=1]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="StyleBoxFlat" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[node name="Binary_Counter" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Main" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Main"]
+margin_right = 640.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="H2" type="HBoxContainer" parent="Main"]
+margin_top = 34.0
+margin_right = 640.0
+margin_bottom = 49.0
+size_flags_horizontal = 3
+size_flags_vertical = 12
+
+[node name="V" type="VBoxContainer" parent="Main/H2"]
+margin_right = 50.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 50, 0 )
+size_flags_stretch_ratio = 0.2
+
+[node name="Number" type="RichTextLabel" parent="Main/H2"]
+margin_left = 54.0
+margin_right = 345.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "Number"
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Maximum Value" type="RichTextLabel" parent="Main/H2"]
+margin_left = 349.0
+margin_right = 640.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+theme = SubResource( 1 )
+text = "Max Value = 255"
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Counter" type="HBoxContainer" parent="Main"]
+margin_top = 53.0
+margin_right = 640.0
+margin_bottom = 161.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="C0" type="CenterContainer" parent="Main/Counter"]
+margin_right = 70.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="P" type="PanelContainer" parent="Main/Counter"]
+margin_left = 74.0
+margin_right = 566.0
+margin_bottom = 108.0
+size_flags_horizontal = 12
+size_flags_vertical = 12
+custom_styles/panel = SubResource( 4 )
+
+[node name="GridContainer" type="GridContainer" parent="Main/Counter/P"]
+margin_right = 492.0
+margin_bottom = 108.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+columns = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="LineEdit" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_right = 58.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 10, 15 )
+size_flags_horizontal = 3
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 2 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit2" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 62.0
+margin_right = 120.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit3" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 124.0
+margin_right = 182.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit4" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 186.0
+margin_right = 244.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_vertical = 3
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit5" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 248.0
+margin_right = 306.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit6" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 310.0
+margin_right = 368.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit7" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 372.0
+margin_right = 430.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit8" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 434.0
+margin_right = 492.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit9" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_top = 28.0
+margin_right = 58.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit10" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 62.0
+margin_top = 28.0
+margin_right = 120.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit11" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 124.0
+margin_top = 28.0
+margin_right = 182.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit12" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 186.0
+margin_top = 28.0
+margin_right = 244.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit13" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 248.0
+margin_top = 28.0
+margin_right = 306.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit14" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 310.0
+margin_top = 28.0
+margin_right = 368.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit15" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 372.0
+margin_top = 28.0
+margin_right = 430.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit16" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 434.0
+margin_top = 28.0
+margin_right = 492.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit17" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_top = 56.0
+margin_right = 58.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit18" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 62.0
+margin_top = 56.0
+margin_right = 120.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit19" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 124.0
+margin_top = 56.0
+margin_right = 182.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit20" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 186.0
+margin_top = 56.0
+margin_right = 244.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit21" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 248.0
+margin_top = 56.0
+margin_right = 306.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit22" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 310.0
+margin_top = 56.0
+margin_right = 368.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit23" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 372.0
+margin_top = 56.0
+margin_right = 430.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit24" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 434.0
+margin_top = 56.0
+margin_right = 492.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit25" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_top = 84.0
+margin_right = 58.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit26" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 62.0
+margin_top = 84.0
+margin_right = 120.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit27" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 124.0
+margin_top = 84.0
+margin_right = 182.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit28" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 186.0
+margin_top = 84.0
+margin_right = 244.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit29" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 248.0
+margin_top = 84.0
+margin_right = 306.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit30" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 310.0
+margin_top = 84.0
+margin_right = 368.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit31" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 372.0
+margin_top = 84.0
+margin_right = 430.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="LineEdit32" type="LineEdit" parent="Main/Counter/P/GridContainer"]
+margin_left = 434.0
+margin_top = 84.0
+margin_right = 492.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 20, 15 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+custom_styles/read_only = SubResource( 3 )
+text = "0"
+align = 1
+editable = false
+
+[node name="C1" type="CenterContainer" parent="Main/Counter"]
+margin_left = 570.0
+margin_right = 640.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Main"]
+margin_top = 165.0
+margin_right = 640.0
+margin_bottom = 173.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="H" type="HBoxContainer" parent="Main"]
+margin_top = 177.0
+margin_right = 640.0
+margin_bottom = 325.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/H"]
+margin_right = 52.0
+margin_bottom = 148.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="C2" type="CenterContainer" parent="Main/H"]
+margin_left = 56.0
+margin_right = 316.0
+margin_bottom = 148.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="V" type="VBoxContainer" parent="Main/H/C2"]
+margin_left = 23.0
+margin_top = 28.0
+margin_right = 237.0
+margin_bottom = 120.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="C" type="CenterContainer" parent="Main/H/C2/V"]
+margin_right = 214.0
+margin_bottom = 40.0
+
+[node name="H" type="HBoxContainer" parent="Main/H/C2/V/C"]
+margin_right = 214.0
+margin_bottom = 40.0
+
+[node name="-" type="Button" parent="Main/H/C2/V/C/H"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+text = "-"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="H0" type="HBoxContainer" parent="Main/H/C2/V/C/H"]
+margin_left = 44.0
+margin_right = 44.0
+margin_bottom = 40.0
+
+[node name="Pause" type="CheckButton" parent="Main/H/C2/V/C/H"]
+margin_left = 48.0
+margin_right = 166.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 80, 0 )
+text = "Pause"
+
+[node name="H1" type="HBoxContainer" parent="Main/H/C2/V/C/H"]
+margin_left = 170.0
+margin_right = 170.0
+margin_bottom = 40.0
+
+[node name="+" type="Button" parent="Main/H/C2/V/C/H"]
+margin_left = 174.0
+margin_right = 214.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+text = "+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpinBox" type="SpinBox" parent="Main/H/C2/V"]
+margin_top = 44.0
+margin_right = 214.0
+margin_bottom = 68.0
+min_value = 2.0
+max_value = 255.0
+value = 2.0
+exp_edit = true
+align = 1
+editable = false
+prefix = "Base"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reset" type="Button" parent="Main/H/C2/V"]
+margin_top = 72.0
+margin_right = 214.0
+margin_bottom = 92.0
+text = "Reset"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Main/H"]
+margin_left = 320.0
+margin_right = 346.0
+margin_bottom = 148.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="C" type="MarginContainer" parent="Main/H"]
+margin_left = 350.0
+margin_right = 610.0
+margin_bottom = 148.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Digit Values" type="VBoxContainer" parent="Main/H/C"]
+margin_right = 260.0
+margin_bottom = 148.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit 1" type="RichTextLabel" parent="Main/H/C/Digit Values"]
+margin_right = 260.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 0, 15 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Digit 1 ="
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit 2" type="RichTextLabel" parent="Main/H/C/Digit Values"]
+margin_top = 19.0
+margin_right = 260.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 0, 15 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Digit 2 ="
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit 3" type="RichTextLabel" parent="Main/H/C/Digit Values"]
+margin_top = 38.0
+margin_right = 260.0
+margin_bottom = 53.0
+rect_min_size = Vector2( 0, 15 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Digit 3 ="
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit 4" type="RichTextLabel" parent="Main/H/C/Digit Values"]
+margin_top = 57.0
+margin_right = 260.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 0, 15 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Digit 4 ="
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit 5" type="RichTextLabel" parent="Main/H/C/Digit Values"]
+margin_top = 76.0
+margin_right = 260.0
+margin_bottom = 91.0
+rect_min_size = Vector2( 0, 15 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Digit 5 ="
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit 6" type="RichTextLabel" parent="Main/H/C/Digit Values"]
+margin_top = 95.0
+margin_right = 260.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 0, 15 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Digit 6 ="
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit 7" type="RichTextLabel" parent="Main/H/C/Digit Values"]
+margin_top = 114.0
+margin_right = 260.0
+margin_bottom = 129.0
+rect_min_size = Vector2( 0, 15 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Digit 7 ="
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit 8" type="RichTextLabel" parent="Main/H/C/Digit Values"]
+margin_top = 133.0
+margin_right = 260.0
+margin_bottom = 148.0
+rect_min_size = Vector2( 0, 15 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Digit 8 ="
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Main/H"]
+margin_left = 614.0
+margin_right = 640.0
+margin_bottom = 148.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main"]
+margin_top = 329.0
+margin_right = 640.0
+margin_bottom = 360.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="pressed" from="Main/H/C2/V/C/H/-" to="." method="_on__pressed" binds= [ -1 ]]
+[connection signal="pressed" from="Main/H/C2/V/C/H/Pause" to="." method="_on_Pause_pressed"]
+[connection signal="pressed" from="Main/H/C2/V/C/H/+" to="." method="_on__pressed" binds= [ 1 ]]
+[connection signal="value_changed" from="Main/H/C2/V/SpinBox" to="." method="_on_SpinBox_value_changed"]
+[connection signal="pressed" from="Main/H/C2/V/Reset" to="." method="_on_Reset_pressed"]

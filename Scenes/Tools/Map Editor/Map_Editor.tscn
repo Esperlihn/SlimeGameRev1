@@ -1,0 +1,374 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scripts/Map_Editor/Map_Editor.gd" type="Script" id=1]
+[ext_resource path="res://Resources/Tiles/Isotiles.tres" type="TileSet" id=2]
+[ext_resource path="res://Resources/Tiles/Tile Icons/Grass.png" type="Texture" id=3]
+[ext_resource path="res://Resources/Tiles/Tile Icons/Sand_Brick.png" type="Texture" id=4]
+[ext_resource path="res://Resources/Tiles/Tile Icons/Water.png" type="Texture" id=7]
+[ext_resource path="res://Resources/Tiles/Tile Icons/Wood_Bridge.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/Node_position.gd" type="Script" id=11]
+
+[node name="Map_Editor" type="Control"]
+anchor_right = 2.012
+anchor_bottom = 2.022
+margin_right = -7.68005
+margin_bottom = -7.92004
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TileMap" type="TileMap" parent="."]
+mode = 1
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 64, 32 )
+cell_half_offset = 0
+cell_y_sort = true
+format = 1
+tile_data = PoolIntArray( -65522, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131087, 0, 0, 131088, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 0, 0, 196623, 0, 0, 196624, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327695, 0, 0, 327696, 0, 0, 327697, 0, 0, 327698, 0, 0, 327699, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 458758, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 589830, 0, 0, 589831, 0, 0, 655366, 0, 0, 720902, 0, 0, 1048594, 0, 0 )
+
+[node name="M" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -20.0
+margin_bottom = -15.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="V" type="VBoxContainer" parent="M"]
+margin_right = 1260.0
+margin_bottom = 705.0
+mouse_filter = 2
+
+[node name="Menu_Items" type="PanelContainer" parent="M/V"]
+margin_right = 1260.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="H" type="HBoxContainer" parent="M/V/Menu_Items"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1253.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FileButton" type="MenuButton" parent="M/V/Menu_Items/H"]
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 100, 0 )
+text = "File"
+script = ExtResource( 11 )
+gpname = "Map_Editor"
+
+[node name="EditButton" type="MenuButton" parent="M/V/Menu_Items/H"]
+margin_left = 104.0
+margin_right = 204.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 100, 0 )
+focus_mode = 2
+text = "Edit"
+
+[node name="HelpButton" type="MenuButton" parent="M/V/Menu_Items/H"]
+margin_left = 208.0
+margin_right = 308.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 100, 0 )
+focus_mode = 2
+text = "Edit"
+
+[node name="H" type="HBoxContainer" parent="M/V/Menu_Items/H"]
+margin_left = 312.0
+margin_right = 1246.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="H" type="HSplitContainer" parent="M/V"]
+margin_top = 38.0
+margin_right = 1260.0
+margin_bottom = 705.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offset = -400
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P" type="PanelContainer" parent="M/V/H"]
+margin_right = 224.0
+margin_bottom = 667.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Left_Toolbar" type="VSplitContainer" parent="M/V/H/P"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 217.0
+margin_bottom = 660.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="T" type="TabContainer" parent="M/V/H/P/Left_Toolbar"]
+margin_right = 210.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="T2" type="TabContainer" parent="M/V/H/P/Left_Toolbar"]
+margin_top = 332.0
+margin_right = 210.0
+margin_bottom = 653.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Workspace_and_Menu" type="HSplitContainer" parent="M/V/H"]
+margin_left = 236.0
+margin_right = 1260.0
+margin_bottom = 667.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Workspace_Console" type="VSplitContainer" parent="M/V/H/Workspace_and_Menu"]
+margin_right = 890.0
+margin_bottom = 667.0
+grow_vertical = 0
+rect_min_size = Vector2( 100, 0 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Workspace" type="HBoxContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console"]
+margin_right = 890.0
+margin_bottom = 470.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="ViewportContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace"]
+margin_right = 832.0
+margin_bottom = 470.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="P" type="PanelContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace"]
+margin_left = 836.0
+margin_right = 890.0
+margin_bottom = 470.0
+
+[node name="V" type="VBoxContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 47.0
+margin_bottom = 463.0
+size_flags_vertical = 3
+
+[node name="V" type="VBoxContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V"]
+margin_right = 40.0
+margin_bottom = 20.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="S" type="ScrollContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V"]
+margin_top = 24.0
+margin_right = 40.0
+margin_bottom = 431.0
+rect_min_size = Vector2( 40, 0 )
+size_flags_vertical = 3
+
+[node name="G" type="GridContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S"]
+margin_right = 40.0
+margin_bottom = 407.0
+rect_min_size = Vector2( 30, 0 )
+size_flags_vertical = 3
+
+[node name="P2" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="P3" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_top = 44.0
+margin_right = 40.0
+margin_bottom = 84.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="P4" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_top = 88.0
+margin_right = 40.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="P5" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_top = 132.0
+margin_right = 40.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="P6" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_top = 176.0
+margin_right = 40.0
+margin_bottom = 216.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="P7" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_top = 220.0
+margin_right = 40.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="P8" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_top = 264.0
+margin_right = 40.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="P9" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_top = 308.0
+margin_right = 40.0
+margin_bottom = 348.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="P10" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
+margin_top = 352.0
+margin_right = 40.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="V2" type="VBoxContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V"]
+margin_top = 435.0
+margin_right = 40.0
+margin_bottom = 456.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="Console_Container" type="PanelContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console"]
+margin_top = 482.0
+margin_right = 890.0
+margin_bottom = 667.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TabContainer" type="TabContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Console_Container"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 883.0
+margin_bottom = 178.0
+
+[node name="Console" type="TextEdit" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Console_Container/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+highlight_current_line = true
+syntax_highlighting = true
+show_line_numbers = true
+draw_tabs = true
+bookmark_gutter = true
+breakpoint_gutter = true
+fold_gutter = true
+smooth_scrolling = true
+hiding_enabled = true
+wrap_enabled = true
+caret_blink = true
+script = ExtResource( 11 )
+gpname = "Map_Editor"
+
+[node name="Right" type="PanelContainer" parent="M/V/H/Workspace_and_Menu"]
+margin_left = 902.0
+margin_right = 1024.0
+margin_bottom = 667.0
+rect_min_size = Vector2( 110, 0 )
+
+[node name="Right_Toolbar" type="VSplitContainer" parent="M/V/H/Workspace_and_Menu/Right"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 115.0
+margin_bottom = 660.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/autohide = 1
+
+[node name="Upper_Right_Tool" type="TabContainer" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar"]
+margin_right = 108.0
+margin_bottom = 320.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Blocks" type="MarginContainer" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Upper_Right_Tool"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Blocks" type="Panel" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Upper_Right_Tool/Blocks"]
+margin_right = 100.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Upper_Right_Tool/Blocks"]
+margin_right = 100.0
+margin_bottom = 284.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+items = [ "Grass", ExtResource( 3 ), false, "Water", ExtResource( 7 ), false, "Sand Brick", ExtResource( 4 ), false, "Wood Bridge", ExtResource( 8 ), false ]
+auto_height = true
+max_columns = 13
+same_column_width = true
+fixed_column_width = 48
+fixed_icon_size = Vector2( 48, 48 )
+script = ExtResource( 11 )
+gpname = "Map_Editor"
+
+[node name="Lower_Right_Tool" type="Panel" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar"]
+margin_top = 332.0
+margin_right = 108.0
+margin_bottom = 653.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+zoom = Vector2( 2, 2 )
+
+[connection signal="dragged" from="M/V/H/Workspace_and_Menu" to="." method="_on_Workspace_and_Menu_dragged"]
