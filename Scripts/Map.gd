@@ -14,16 +14,15 @@ IMPORTANT NOTE:
 
 extends Node2D
 
-var level_name                      = "Test_Level_32x"
+var level_name                      = "Test_Level_32x36"
 onready var image                   = Image.new()
 onready var layers_descending:Array = []
 onready var highlight               = preload("res://Scenes/Objects/Highlight Tile.tscn")
 onready var tile_select_highlight   = preload("res://Scenes/Objects/Select_highlight.tscn")
-onready var timer                   = get_node("../Timer")
-onready var speed_slider            = get_node("../HUD/V/H/V/H/V/HSlider")
-onready var camera                  = get_node("../Interactive HUD")
-
-export var load_external_level:bool = false
+onready var timer                   = Timer.new()
+onready var hud                     = null#get_parent().get_node("HUD")
+onready var camera                  = null#get_node("../Interactive HUD")
+onready var popup_ribbon            = preload("res://Scenes/UI/Popups/Info_Ribbon_Popup.tscn")
 
 enum I {
 	CELLVALUE, #     1
@@ -93,14 +92,10 @@ var seconds            = 0
 #========================== STARTUP ONLY FUNCTIONS ============================#
 #==============================================================================#
 
-
 func _ready() -> void:
 	var time = OS.get_system_time_msecs()
 	print(linebreak)
-
 	_organise_tilemap_and_set_values()
-	if load_external_level == true:
-		load_map_from_image()
 	_populate_atlas()
 	_get_used_tiles()
 	_add_walkable_tiles()
@@ -117,8 +112,14 @@ func _ready() -> void:
 	"\n\n==============================",\
 	"\nSystem startup took ", OS.get_system_time_msecs() - time, " ms",\
 	linebreak )))
-	if load_external_level == false:
-		save_map_as_image()
+	print("Atlas size: ", atlas.size())
+
+func add_timer(number = 0.5):
+	self.add_child(timer)
+	timer.one_shot = true
+	timer.wait_time = number
+	timer.connect("timeout", self, "_on_Timer_timeout")
+	timer.start()
 
 func _populate_atlas() -> void:
 	var time = OS.get_system_time_msecs()
@@ -199,8 +200,14 @@ func _populate_atlas() -> void:
 				]
 	print(Log.logger(str("populate_atlas ran in ", OS.get_system_time_msecs() - time, " ms")))
 func _organise_tilemap_and_set_values() -> void:
+#This first little chunk of code just makes the game ignore the highest tilemap
+#That tilemap is just there so pathfinding for the layer below it will work
+#The highest tilemap should never be used for anything whatsoever. It just needs 
+#to sit there untouched. Kapesh?
+	var too_high_tilemap = true
 	for i in self.get_children():
-		if i.name == "9":
+		if too_high_tilemap == true:
+			too_high_tilemap = false
 			continue
 	#Creating the Layer arrays to be iterated through
 		layers_descending.push_back(i)
@@ -212,10 +219,8 @@ func _organise_tilemap_and_set_values() -> void:
 		for cell in i.get_used_cells():
 			if cell.x < 0 or cell.y < 0:
 				i.set_cellv(cell, -1)
-
 	#Finding the outer limits of the map and making sure the map is a square.
 	#The rotate function absolutely requires the map to be square to work correctly.
-		if load_external_level == false:
 			if i.get_used_rect().end.x > map_size.x:
 				map_size.x = i.get_used_rect().end.x
 				if map_size.x > map_size.y:
@@ -224,14 +229,11 @@ func _organise_tilemap_and_set_values() -> void:
 				map_size.y = i.get_used_rect().end.y
 				if map_size.y > map_size.x:
 					map_size.x = map_size.y
-	if load_external_level == false:
-		#Assiging a few map variable that are used throughout the game.
-		map_center = Vector2((map_size.x / 2) - 0.5, (map_size.y / 2) - 0.5)
-		max_index = int(map_size.x * map_size.y) * (self.get_child_count() - 1) - 1
-		#I really want to rename this variable to something more self-evident. Need ideas.
-		layer_size = int(map_size.x * map_size.y)
-	timer.wait_time = (speed_slider.max_value - speed_slider.value) / 100.0
-	speed_slider.get_parent().visible = false
+	#Assiging a few map variable that are used throughout the game.
+	map_center = Vector2((map_size.x / 2) - 0.5, (map_size.y / 2) - 0.5)
+	max_index = int(map_size.x * map_size.y) * (self.get_child_count() - 1) - 1
+	#I really want to rename this variable to something more self-evident. Need ideas.
+	layer_size = int(map_size.x * map_size.y)
 func _get_used_tiles() -> void:
 	var time = OS.get_system_time_msecs()
 	
@@ -559,7 +561,7 @@ func find_moverange(move_range = 5) -> void:
 		set_highlights(origintiles, Color.green)
 		searchtiles = origintiles
 		origintiles = []
-		timer.start()
+		add_timer()
 		yield(timer,"timeout")
 	ignoremouse = false
 	print(Log.logger(str("_find_moverange_slow ran in ", OS.get_system_time_msecs() -time, "ms.")))
@@ -600,15 +602,7 @@ func remove_astar_point(index) -> void:
 
 
 func _on_Timer_timeout() -> void:
-	pass # Replace with function body.
-
-func _on_HSlider_value_changed(value) -> void:
-	get_node("../HUD/VBoxContainer/HBoxContainer/VBoxContainer/RichTextLabel").bbcode_text =\
-	str("[center]Speed = ", value / 2.5, "[/center]")
-	if value >= speed_slider.max_value:
-		value -= 1
-	timer.wait_time = (speed_slider.max_value - value) / 100.0
-	print(Log.logger(str(timer.wait_time)))
+	pass
 
 func _on_Rotate_Right_pressed() -> void:
 	_rotate_map("right")
@@ -719,8 +713,11 @@ func load_map_from_text_file() -> void:
 
 func save_map_as_image() -> void:
 	var tile_value_array = []
-	var image_width = (map_size.x * 3)
-	var image_height = (map_size.y * 3)
+	#The float declaration to avoid editor giving INTEGER DIVISION error -_-
+	var height = self.get_child_count() - 1
+	var resolution = height * map_size.x * map_size.y
+	var image_width = sqrt(resolution)
+	var image_height = sqrt(resolution)
 	var start_position = Vector2((image_width/2), image_height/2)
 	var current_position = start_position
 	var _counter = 0
@@ -733,13 +730,17 @@ func save_map_as_image() -> void:
 		"Up": Vector2(0, -1), "Down": Vector2(0, 1), "None": Vector2.ZERO
 	}
 	image.create(image_width, image_height, false, Image.FORMAT_RGBA8)
+
 	for i in layers:
-		if i.name == "9":
+		if i.name == self.get_child(0).name:
 			break
+
 		for y in range(map_size.y):
 			for x in range(map_size.x):
 				tile_value_array.append(i.get_cellv(Vector2(x, y))+1)
+				
 	image.lock()
+	#Store level tile info in a slow outward spiral
 	for value in tile_value_array:
 		image.set_pixelv(current_position, colour_palette[value])
 		
@@ -768,10 +769,17 @@ func save_map_as_image() -> void:
 			
 			move_value = increment_value - 1
 		_counter += 1
+	
 	image.unlock()
 	image.save_png(png_save_path)
 	image.resize((image_width)*8, (image_height)*8, 0)
 	image.save_png(str("user://", level_name, "-4.png"))
+
+	var popup = popup_ribbon.instance()
+	hud.add_child(popup)
+	popup.message = "Saved!"
+	popup.popup_centered()
+
 func load_map_from_image() -> void:
 	var time = OS.get_system_time_msecs()
 	var _counter = 0
@@ -791,11 +799,14 @@ func load_map_from_image() -> void:
 		"Right": Vector2(1, 0), "Left": Vector2(-1, 0),
 		"Up": Vector2(0, -1), "Down": Vector2(0, 1), "None": Vector2.ZERO
 	}
-
+		
 	map_size = Vector2(width, height)
 	map_center = Vector2(width/2, height/2)
 	layer_size = width * height
 	max_index = layer_size * layers.size() - 1
+
+	for tilemap in self.get_children():
+		tilemap.clear()
 
 	image.lock()
 	for _i in range(0, image_width*image_height):
@@ -833,12 +844,17 @@ func load_map_from_image() -> void:
 	print("load_map_from_image took ", OS.get_system_time_msecs() - time, \
 	"ms to run")
 
+	var popup = popup_ribbon.instance()
+	hud.add_child(popup)
+	popup.message = "Loaded!"
+	popup.popup_centered()
+
 func get_pixel_value(_image, position_in_image):
 	var value = _image.get_pixelv(position_in_image)
-	value.r = stepify(value.r, 0.05)
-	value.g = stepify(value.g, 0.05)
-	value.b = stepify(value.b, 0.05)
-	value.a = stepify(value.a, 0.05)
+	value.r = stepify(value.r, 0.25)
+	value.g = stepify(value.g, 0.25)
+	value.b = stepify(value.b, 0.25)
+	value.a = stepify(value.a, 0.25)
 	var new_value = colour_palette.find(value)
 	if new_value != -1:
 		return new_value
@@ -874,72 +890,82 @@ func print_atlas_index_keys(index):
 		print(keys[count], ":", i)
 		count += 1
 
-func earthquake():
-#	var shakes = 20
-#	var flip = false
-	var map = get_node("0")
-	map.cell_half_offset == map.HALF_OFFSET_X
-	var new_map = map.duplicate()
-	self.remove_child(map)
-	self.add_child(new_map)
-	print(new_map.name)
-	print("RUN")
-#	if shakes > 0:
-#		for tilemap in layers:
-#			if flip == false:
-#				print("Is this running?")
-#				tilemap.cell_half_offset == tilemap.HALF_OFFSET_X
-#				tilemap.update()
-#			else:
-#				tilemap.cell_half_offset == tilemap.HALF_OFFSET_NEGATIVE_X
-#				tilemap.update()
-#		shakes -= 1
-#		flip = !flip
-#		yield(timer, "timeout")
-#		print(shakes)
-
-	for tilemap in layers:
-		tilemap.cell_half_offset == tilemap.HALF_OFFSET_DISABLED
-	
 
 #==============================================================================#
 #==============================================================================#
 #==============================================================================#
 """
 Notes for future me:
+	
+	
+Explanations:
+	Why these specific level Dimensions:
+		So the levels can come in 6 different sizes:
 
-COORDS: 
-	Vector2 Tilemap Coordinates
-	Coords should never be negative, as the entire gamespace only works with positive intgers
-POSITION:
-	Vector2 Global Coordinates
-	Means global coordinates, usually look like (-128, 33)
-	Position x coordinates can be negative as the middle of the screen is x = 0
-POINT:
-	Vector3 Astar Coordinates
-	there are the dimensional coordinates within the astar grid.
-	Astar coordinates also cannot be negative in this implementation.
-INDEX: 
-	this is the A* index value of a tile/position. This is the master
-	coordinate used in all other calculations, it is used to connect everything together
-	so please make sure to sure index values whenever possible and only convert to
-	other coordinates when absolutely necessary
+			2x2, 4x4, 8x8, 16x16, 32x32, 64x64
+		
+		Possible heights for each level (With no overlaps) are:
+			4, 9, 25, 49, 81, 121, 169, 225, 289, 361, 441, 529, 625
 
-	This implementation of A* is quite different from my previous ones as this one
-	needed to be able to work with rotations as well, which was impossible on the
-	old system.
+		The reason for these sizes is because they can be easily converted to and from 
+		width and height of an image file. This is also why the number of layers is 9 
+		(Yes I know there's one too many, pathfinding on the highest layer breaks without it. 
+		So leave it alone.)
 
-	On this system the A* is only ever drawn once, when the map is loaded, 
-	when the map is rotated (And thus all the tilemap coordinates/indexes change)
-	A* uses the main dictionary to understand what the true index value is of the
-	point that's selected.
+		This way if I have a 32x32 level (Which would need an image resoltuiong of 1024) I 
+		can then just multiply the resolution of the image by 9(layers) and I get 9,216. Now,
+		if I divide that number by 32? What do I get? 288!, if I divide by 32 again? 9!! Wait, 
+		that's the dimensions of the level and the number of layers inside of it?!
+		So then if we go back to that number, 9216, if we take the square of this number we get:
+		96! Which is just 32 x 3!
+		So this means, with this system, the image produced is just the square of the height times
+		the width of the level. So with 9 layers, on a 32x32 level, the image would be 96x96 (32*3)
+		if the level is 64x64 with 9 layers, the image would be 192x192 (64 * 3)
+		if the level was 16x16 with 18 layers, the image would be 
 
-	in essence A* never needs to change, instead we just convert the altered map
-	coordinates to their original value (Orientation 0)
-ATLAS: 
-	is the master dictionary that stores all the information about the map in
-	one location. Whenever anything on the map changes, that change MUST be reflected
-	in the Atlas as well, as everything in the game refers to the atlas for information.
+		This is why the grids can only be those 6 options in size and why there has to be
+		9 layers, because that way we can basically encode the width, depth, and height 
+		of our levels directly into the dimensions of the saved image.
+
+Self Definitions:
+
+	COORDS: 
+		Vector2 Tilemap Coordinates
+		Coords should never be negative, as the entire gamespace only works with positive intgers
+	POSITION:
+		Vector2 Global Coordinates
+		Means global coordinates, usually look like (-128, 33)
+		Position x coordinates can be negative as the middle of the screen is x = 0
+	POINT:
+		Vector3 Astar Coordinates
+		They are essentially COORDS but with a z value as well.
+		there are the dimensional coordinates within the astar grid.
+		Astar coordinates also cannot be negative in this implementation.
+	INDEX: 
+		this is the A* index value of a tile/position. This is the master
+		coordinate used in all other calculations, it is used to connect everything together
+		so please make sure to use index values whenever possible and only convert to
+		other coordinates when absolutely necessary
+
+		This implementation of A* is quite different from my previous ones as this one
+		needed to be able to work with rotations as well, which was impossible on the
+		old system.
+
+		On this system the A* is only ever drawn once, when the map is loaded, 
+		when the map is rotated (And thus all the tilemap coordinates/indexes change)
+		A* uses the main dictionary to understand what the true index value is of the
+		point that's selected.
+
+		in essence A* never needs to change, instead we just convert the altered map
+		coordinates to their original value (Orientation 0)
+		
+		Tl;Dr The astar map never changes, but the location on the screen that corresponds with an
+		astar index changes when the map rotates. Think of the astar as a seperate map that we're 
+		tracing over the visible map on the screen.
+	ATLAS: 
+		is the master dictionary that stores all the information about the map in
+		one location. Whenever anything on the map changes, that change MUST be reflected
+		in the Atlas as well, as everything in the game refers to the atlas for information.
 
 """
 

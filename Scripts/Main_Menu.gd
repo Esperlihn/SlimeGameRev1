@@ -24,8 +24,6 @@ func _on_Options_pressed() -> void:
 func _on_Exit_pressed() -> void:
 	get_tree().quit()
 
-
-
 func _on_MapEditorButton_pressed():
 	assert(!get_tree().change_scene("res://Scenes/Tools/Debug GUI/Debug Gui.tscn"),\
 	"Main menu failed to switch to Debug GUI scene.")

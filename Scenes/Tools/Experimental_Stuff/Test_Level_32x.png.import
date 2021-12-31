@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dark_Neon_Brick.png-1fbe40cb185c4bd0f7aca7d2b19a3519.stex"
+path="res://.import/Test_Level_32x.png-9a902537e065030326965fc636289c7d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Tiles/Tile Icons/Dark_Neon_Brick.png"
-dest_files=[ "res://.import/Dark_Neon_Brick.png-1fbe40cb185c4bd0f7aca7d2b19a3519.stex" ]
+source_file="res://Scenes/Tools/Experimental_Stuff/Test_Level_32x.png"
+dest_files=[ "res://.import/Test_Level_32x.png-9a902537e065030326965fc636289c7d.stex" ]
 
 [params]
 

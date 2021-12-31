@@ -1,12 +1,23 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Map_Editor/Map_Editor.gd" type="Script" id=1]
-[ext_resource path="res://Resources/Tiles/Isotiles.tres" type="TileSet" id=2]
-[ext_resource path="res://Resources/Tiles/Tile Icons/Grass.png" type="Texture" id=3]
-[ext_resource path="res://Resources/Tiles/Tile Icons/Sand_Brick.png" type="Texture" id=4]
-[ext_resource path="res://Resources/Tiles/Tile Icons/Water.png" type="Texture" id=7]
-[ext_resource path="res://Resources/Tiles/Tile Icons/Wood_Bridge.png" type="Texture" id=8]
+[ext_resource path="res://Resources/Tiles/Isotiles_Tileset.tres" type="TileSet" id=2]
+[ext_resource path="res://Resources/UI/Tool Icons/Pen.png" type="Texture" id=3]
+[ext_resource path="res://Resources/UI/Tool Icons/Bucket.png" type="Texture" id=4]
+[ext_resource path="res://Resources/UI/Tool Icons/Layers.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Instances/Map.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Resources/UI/Minimal_UI_Theme.tres" type="Theme" id=7]
+[ext_resource path="res://Resources/UI/kenneyUI-blue.tres" type="Theme" id=8]
+[ext_resource path="res://Resources/UI/Tool Icons/!Pen.png" type="Texture" id=9]
+[ext_resource path="res://Resources/UI/Tool Icons/AllBucket.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Node_position.gd" type="Script" id=11]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0.6, 0.6, 0.6, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
 [node name="Map_Editor" type="Control"]
 anchor_right = 2.012
@@ -19,48 +30,56 @@ __meta__ = {
 }
 
 [node name="TileMap" type="TileMap" parent="."]
+position = Vector2( 688, 45 )
 mode = 1
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 64, 32 )
-cell_half_offset = 0
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( -65522, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131087, 0, 0, 131088, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 0, 0, 196623, 0, 0, 196624, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327695, 0, 0, 327696, 0, 0, 327697, 0, 0, 327698, 0, 0, 327699, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 458758, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 589830, 0, 0, 589831, 0, 0, 655366, 0, 0, 720902, 0, 0, 1048594, 0, 0 )
+
+[node name="Map" parent="TileMap" instance=ExtResource( 6 )]
+visible = false
+position = Vector2( -1, 0 )
+z_index = -9
 
 [node name="M" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -20.0
-margin_bottom = -15.0
+margin_bottom = -8.0
 mouse_filter = 1
+theme = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="V" type="VBoxContainer" parent="M"]
-margin_right = 1260.0
-margin_bottom = 705.0
+margin_right = 1280.0
+margin_bottom = 712.0
 mouse_filter = 2
+theme = ExtResource( 8 )
 
 [node name="Menu_Items" type="PanelContainer" parent="M/V"]
-margin_right = 1260.0
-margin_bottom = 34.0
+margin_right = 1280.0
+margin_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.05
+theme = ExtResource( 8 )
 
 [node name="H" type="HBoxContainer" parent="M/V/Menu_Items"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1253.0
-margin_bottom = 27.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 1278.0
+margin_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 8 )
 
 [node name="FileButton" type="MenuButton" parent="M/V/Menu_Items/H"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 46.251
 rect_min_size = Vector2( 100, 0 )
+theme = ExtResource( 8 )
 text = "File"
 script = ExtResource( 11 )
 gpname = "Map_Editor"
@@ -68,234 +87,191 @@ gpname = "Map_Editor"
 [node name="EditButton" type="MenuButton" parent="M/V/Menu_Items/H"]
 margin_left = 104.0
 margin_right = 204.0
-margin_bottom = 20.0
+margin_bottom = 46.251
 rect_min_size = Vector2( 100, 0 )
 focus_mode = 2
+theme = ExtResource( 8 )
 text = "Edit"
 
 [node name="HelpButton" type="MenuButton" parent="M/V/Menu_Items/H"]
 margin_left = 208.0
 margin_right = 308.0
-margin_bottom = 20.0
+margin_bottom = 46.251
 rect_min_size = Vector2( 100, 0 )
 focus_mode = 2
+theme = ExtResource( 8 )
 text = "Edit"
 
 [node name="H" type="HBoxContainer" parent="M/V/Menu_Items/H"]
 margin_left = 312.0
-margin_right = 1246.0
-margin_bottom = 20.0
+margin_right = 1276.0
+margin_bottom = 46.0
 size_flags_horizontal = 3
+theme = ExtResource( 8 )
 
-[node name="H" type="HSplitContainer" parent="M/V"]
-margin_top = 38.0
-margin_right = 1260.0
-margin_bottom = 705.0
+[node name="H" type="HSplitContainer" parent="M/V" groups=["SplitContainers"]]
+margin_top = 54.0
+margin_right = 1280.0
+margin_bottom = 712.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
-split_offset = -400
+theme = ExtResource( 8 )
+split_offset = -450
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="P" type="PanelContainer" parent="M/V/H"]
-margin_right = 224.0
-margin_bottom = 667.0
+margin_right = 184.0
+margin_bottom = 658.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 7 )
 
-[node name="Left_Toolbar" type="VSplitContainer" parent="M/V/H/P"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 217.0
-margin_bottom = 660.0
+[node name="Left_Toolbar" type="VSplitContainer" parent="M/V/H/P" groups=["SplitContainers"]]
+margin_right = 184.0
+margin_bottom = 658.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
+theme = ExtResource( 7 )
 
 [node name="T" type="TabContainer" parent="M/V/H/P/Left_Toolbar"]
-margin_right = 210.0
-margin_bottom = 320.0
-rect_min_size = Vector2( 150, 0 )
+margin_right = 184.0
+margin_bottom = 323.0
+rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 8 )
+tab_align = 0
+
+[node name="Entities" type="ItemList" parent="M/V/H/P/Left_Toolbar/T"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 44.0
+margin_right = -6.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 7 )
+
+[node name="Objects" type="ItemList" parent="M/V/H/P/Left_Toolbar/T"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 44.0
+margin_right = -6.0
+margin_bottom = -5.0
+theme = ExtResource( 7 )
 
 [node name="T2" type="TabContainer" parent="M/V/H/P/Left_Toolbar"]
-margin_top = 332.0
-margin_right = 210.0
-margin_bottom = 653.0
-rect_min_size = Vector2( 150, 0 )
+margin_top = 335.0
+margin_right = 184.0
+margin_bottom = 658.0
+rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 8 )
 
-[node name="Workspace_and_Menu" type="HSplitContainer" parent="M/V/H"]
-margin_left = 236.0
-margin_right = 1260.0
-margin_bottom = 667.0
+[node name="Parameters" type="ItemList" parent="M/V/H/P/Left_Toolbar/T2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 44.0
+margin_right = -6.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 7 )
+
+[node name="Workspace_and_Menu" type="HSplitContainer" parent="M/V/H" groups=["SplitContainers"]]
+margin_left = 196.0
+margin_right = 1280.0
+margin_bottom = 658.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 8 )
+split_offset = -48
 
-[node name="Workspace_Console" type="VSplitContainer" parent="M/V/H/Workspace_and_Menu"]
-margin_right = 890.0
-margin_bottom = 667.0
+[node name="Workspace_Console" type="VSplitContainer" parent="M/V/H/Workspace_and_Menu" groups=["SplitContainers"]]
+margin_right = 1014.0
+margin_bottom = 658.0
 grow_vertical = 0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 8 )
+split_offset = 450
 
 [node name="Workspace" type="HBoxContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console"]
-margin_right = 890.0
-margin_bottom = 470.0
+margin_right = 1014.0
+margin_bottom = 450.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
+theme = ExtResource( 8 )
 
-[node name="MarginContainer" type="ViewportContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace"]
-margin_right = 832.0
-margin_bottom = 470.0
+[node name="TilemapContainer" type="ViewportContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace"]
+margin_right = 950.0
+margin_bottom = 450.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 8 )
+
+[node name="S" type="ScrollContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace"]
+margin_left = 954.0
+margin_right = 1014.0
+margin_bottom = 450.0
+rect_min_size = Vector2( 60, 0 )
+mouse_filter = 1
+theme = ExtResource( 7 )
+scroll_horizontal_enabled = false
+
+[node name="Toolbar" type="ItemList" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/S"]
+margin_right = 52.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 52, 40 )
+theme = ExtResource( 8 )
+items = [ "", ExtResource( 3 ), false, "", ExtResource( 4 ), false, "", ExtResource( 9 ), false, "", ExtResource( 10 ), false, "", ExtResource( 5 ), false, "", null, false, "", null, false, "", null, false, "", null, false ]
+auto_height = true
+same_column_width = true
+icon_mode = 0
+fixed_icon_size = Vector2( 40, 40 )
+script = ExtResource( 11 )
+gpname = "Map_Editor"
 
 [node name="P" type="PanelContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace"]
-margin_left = 836.0
-margin_right = 890.0
-margin_bottom = 470.0
+visible = false
+margin_left = 886.0
+margin_right = 940.0
+margin_bottom = 464.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 54, 0 )
+theme = ExtResource( 8 )
 
-[node name="V" type="VBoxContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 47.0
-margin_bottom = 463.0
-size_flags_vertical = 3
+[node name="TabContainer" type="TabContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console"]
+margin_top = 462.0
+margin_right = 1014.0
+margin_bottom = 658.0
+theme = ExtResource( 8 )
 
-[node name="V" type="VBoxContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V"]
-margin_right = 40.0
-margin_bottom = 20.0
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.05
-
-[node name="S" type="ScrollContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V"]
-margin_top = 24.0
-margin_right = 40.0
-margin_bottom = 431.0
-rect_min_size = Vector2( 40, 0 )
-size_flags_vertical = 3
-
-[node name="G" type="GridContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S"]
-margin_right = 40.0
-margin_bottom = 407.0
-rect_min_size = Vector2( 30, 0 )
-size_flags_vertical = 3
-
-[node name="P2" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="P3" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_top = 44.0
-margin_right = 40.0
-margin_bottom = 84.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="P4" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_top = 88.0
-margin_right = 40.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="P5" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_top = 132.0
-margin_right = 40.0
-margin_bottom = 172.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="P6" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_top = 176.0
-margin_right = 40.0
-margin_bottom = 216.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="P7" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_top = 220.0
-margin_right = 40.0
-margin_bottom = 260.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="P8" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_top = 264.0
-margin_right = 40.0
-margin_bottom = 304.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="P9" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_top = 308.0
-margin_right = 40.0
-margin_bottom = 348.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="P10" type="Panel" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V/S/G"]
-margin_top = 352.0
-margin_right = 40.0
-margin_bottom = 392.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="V2" type="VBoxContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/P/V"]
-margin_top = 435.0
-margin_right = 40.0
-margin_bottom = 456.0
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.05
-
-[node name="Console_Container" type="PanelContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console"]
-margin_top = 482.0
-margin_right = 890.0
-margin_bottom = 667.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.4
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TabContainer" type="TabContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Console_Container"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 883.0
-margin_bottom = 178.0
-
-[node name="Console" type="TextEdit" parent="M/V/H/Workspace_and_Menu/Workspace_Console/Console_Container/TabContainer"]
+[node name="Console" type="TextEdit" parent="M/V/H/Workspace_and_Menu/Workspace_Console/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 44.0
+margin_right = -6.0
+margin_bottom = -5.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
-highlight_current_line = true
+theme = ExtResource( 8 )
+readonly = true
 syntax_highlighting = true
 show_line_numbers = true
 draw_tabs = true
@@ -309,66 +285,134 @@ caret_blink = true
 script = ExtResource( 11 )
 gpname = "Map_Editor"
 
-[node name="Right" type="PanelContainer" parent="M/V/H/Workspace_and_Menu"]
-margin_left = 902.0
-margin_right = 1024.0
-margin_bottom = 667.0
-rect_min_size = Vector2( 110, 0 )
-
-[node name="Right_Toolbar" type="VSplitContainer" parent="M/V/H/Workspace_and_Menu/Right"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 115.0
-margin_bottom = 660.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/autohide = 1
-
-[node name="Upper_Right_Tool" type="TabContainer" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar"]
-margin_right = 108.0
-margin_bottom = 320.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Blocks" type="MarginContainer" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Upper_Right_Tool"]
+[node name="Notes" type="TextEdit" parent="M/V/H/Workspace_and_Menu/Workspace_Console/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 44.0
+margin_right = -6.0
+margin_bottom = -5.0
+theme = ExtResource( 8 )
+smooth_scrolling = true
+wrap_enabled = true
 
-[node name="Blocks" type="Panel" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Upper_Right_Tool/Blocks"]
-margin_right = 100.0
-margin_bottom = 284.0
-rect_min_size = Vector2( 100, 0 )
+[node name="Console_Container" type="PanelContainer" parent="M/V/H/Workspace_and_Menu/Workspace_Console"]
+visible = false
+margin_top = 462.0
+margin_right = 1008.0
+margin_bottom = 658.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+theme = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ItemList" type="ItemList" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Upper_Right_Tool/Blocks"]
-margin_right = 100.0
-margin_bottom = 284.0
+[node name="Right" type="PanelContainer" parent="M/V/H/Workspace_and_Menu"]
+margin_left = 1026.0
+margin_right = 1084.0
+margin_bottom = 658.0
+theme = ExtResource( 7 )
+
+[node name="Right_Toolbar" type="VSplitContainer" parent="M/V/H/Workspace_and_Menu/Right" groups=["SplitContainers"]]
+margin_right = 58.0
+margin_bottom = 658.0
+rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
-items = [ "Grass", ExtResource( 3 ), false, "Water", ExtResource( 7 ), false, "Sand Brick", ExtResource( 4 ), false, "Wood Bridge", ExtResource( 8 ), false ]
+theme = ExtResource( 8 )
+custom_constants/autohide = 1
+
+[node name="Blocks" type="MarginContainer" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar"]
+margin_right = 58.0
+margin_bottom = 296.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 8 )
+
+[node name="Tile_Scrollbar" type="ScrollContainer" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Blocks"]
+margin_right = 58.0
+margin_bottom = 296.0
+scroll_horizontal_enabled = false
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+gpname = "Map_Editor"
+
+[node name="Tile_Selector" type="ItemList" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Blocks/Tile_Scrollbar"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 53.0
+margin_bottom = 291.0
+focus_mode = 0
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 11
+size_flags_vertical = 3
+theme = ExtResource( 7 )
 auto_height = true
 max_columns = 13
 same_column_width = true
 fixed_column_width = 48
+icon_mode = 0
 fixed_icon_size = Vector2( 48, 48 )
 script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 gpname = "Map_Editor"
 
-[node name="Lower_Right_Tool" type="Panel" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar"]
-margin_top = 332.0
-margin_right = 108.0
-margin_bottom = 653.0
+[node name="Upper_Right_Tool" type="ScrollContainer" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar"]
+margin_top = 308.0
+margin_right = 58.0
+margin_bottom = 658.0
+rect_min_size = Vector2( 0, 350 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 8 )
+
+[node name="Lower_Right_Tool" type="ItemList" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Upper_Right_Tool"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 53.0
+margin_bottom = 345.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 8 )
+
+[node name="Layer_Selection" type="Panel" parent="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Upper_Right_Tool/Lower_Right_Tool"]
+margin_right = 68.0
+margin_bottom = 328.0
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 current = true
 zoom = Vector2( 2, 2 )
 
-[connection signal="dragged" from="M/V/H/Workspace_and_Menu" to="." method="_on_Workspace_and_Menu_dragged"]
+[node name="ParallaxLayer" type="ParallaxBackground" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxLayer"]
+anchor_right = 2.0
+anchor_bottom = 2.0
+texture = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[connection signal="gui_input" from="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/TilemapContainer" to="." method="_on_TilemapContainer_gui_input"]
+[connection signal="item_selected" from="M/V/H/Workspace_and_Menu/Workspace_Console/Workspace/S/Toolbar" to="." method="_on_Toolbar_item_selected"]
+[connection signal="text_changed" from="M/V/H/Workspace_and_Menu/Workspace_Console/TabContainer/Console" to="." method="_on_Console_text_changed"]
+[connection signal="gui_input" from="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Blocks/Tile_Scrollbar" to="." method="_on_ScrollContainer_gui_input"]
+[connection signal="item_selected" from="M/V/H/Workspace_and_Menu/Right/Right_Toolbar/Blocks/Tile_Scrollbar/Tile_Selector" to="." method="_on_Tile_Selector_item_selected"]

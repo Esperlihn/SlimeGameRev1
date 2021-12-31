@@ -21,10 +21,6 @@ Log="*res://Scripts/Singletons/Log.gd"
 SignalController="*res://Scripts/Singletons/Signal_Controller.gd"
 Defaults="*res://Scripts/Singletons/Defaults.gd"
 
-[debug]
-
-settings/fps/force_fps=30
-
 [display]
 
 window/size/width=640

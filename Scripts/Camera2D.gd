@@ -15,8 +15,8 @@ find(gpname)+gpname.length()))
 
 var counter         = 0
 var zoom_factor     = Vector2(0.2, 0.2)
-var zoom_in_min     = Vector2(0.3, 0.3)
-var zoom_out_max    = Vector2(2.4, 2.4)
+var zoom_in_min     = Vector2(0.5, 0.5)
+var zoom_out_max    = Vector2(2.5, 2.5)
 var rotate_right    = true
 var mouse_move
 var mouse_held

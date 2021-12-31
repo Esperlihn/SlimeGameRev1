@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Resources/Tiles/Isotiles.tres" type="TileSet" id=1]
-[ext_resource path="res://Scenes/Tools/Camera.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Resources/Tiles/Isotiles_Tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://Scenes/Instances/Camera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=4]
 [ext_resource path="res://Resources/UI/new_theme.tres" type="Theme" id=8]
 [ext_resource path="res://Scripts/Map.gd" type="Script" id=9]

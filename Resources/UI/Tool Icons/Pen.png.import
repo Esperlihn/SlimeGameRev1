@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/White_Brick.png-3ed9086f7abbb27511282b40f548da45.stex"
+path="res://.import/Pen.png-669e5be009ecf4382153644693e0de87.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Tiles/Tile Icons/White_Brick.png"
-dest_files=[ "res://.import/White_Brick.png-3ed9086f7abbb27511282b40f548da45.stex" ]
+source_file="res://Resources/UI/Tool Icons/Pen.png"
+dest_files=[ "res://.import/Pen.png-669e5be009ecf4382153644693e0de87.stex" ]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Resources/Tiles/Tile Icons/Grass.png" type="Texture" id=1]
-[ext_resource path="res://Resources/Tiles/Isotiles.tres" type="TileSet" id=11]
+[ext_resource path="res://Resources/Tiles/Isotiles_Tileset.tres" type="TileSet" id=11]
 [ext_resource path="res://Scenes/Tools/Map Editor/Map_Editor_2.gd" type="Script" id=12]
 
 [node name="Map_Editor_2" type="Control"]

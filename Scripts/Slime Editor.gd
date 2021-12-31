@@ -27,7 +27,7 @@ func _ready() -> void:
 	list.select(0)
 	if list.get_item_count() >= 50:
 		get_node("Entities/SaveLoad/Save_Load/Add_Remove/Add").disabled = true
-		list.set_item_disabled(list.get_item_count(), true)
+		list.set_item_disabled(list.get_item_count()-1, true)
 	
 func set_entity_display_settings() -> void:
 	var entity_display = get_node("Details/Stats_and_Texture/Texture/Entity_Display")
@@ -41,8 +41,8 @@ func update_entity_data(entity_array = entities.size()) -> void:
 	for i in entity_array:
 		if i >= 50:
 			break
-		if !list.get_item_text(i):
-			list.add_item(str(i))
+#		if !list.get_item_text(i):
+		list.add_item(str(i))
 		list.set_item_text(i, str(i+1, ". ",  entities[i]["Name"]))
 
 func update_stats(index) -> void:

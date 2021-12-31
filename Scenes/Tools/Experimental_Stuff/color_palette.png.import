@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Save_1.png-e225919871918618bf79629827680d52.stex"
+path="res://.import/color_palette.png-0813d424c0fb786f04a5d633b7c7f272.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Experimental_Stuff/Save_1.png"
-dest_files=[ "res://.import/Save_1.png-e225919871918618bf79629827680d52.stex" ]
+source_file="res://Scenes/Tools/Experimental_Stuff/color_palette.png"
+dest_files=[ "res://.import/color_palette.png-0813d424c0fb786f04a5d633b7c7f272.stex" ]
 
 [params]
 

@@ -1,5 +1,7 @@
 extends Control
-onready var bit = get_node("GridContainer/LineEdit")
+
+export var countspeed = 0.2
+
 onready var gridcontainer = get_node("Main/Counter/P/GridContainer")
 onready var spinbox = get_node("Main/H/C2/V/SpinBox")
 onready var number = get_node("Main/H2/Number")
@@ -22,7 +24,7 @@ func _process(delta):
 	if paused == false:
 		_on__pressed(1)
 #		second += delta
-#		if second >= 0.1:
+#		if second >= countspeed:
 #			_on__pressed(1)
 #			second = 0
 	if num == maximum_number:
@@ -32,20 +34,20 @@ func _on__pressed(value):
 	num += value
 	number.bbcode_text = str("[center]Number = ", num)
 	var _count = bit_flip.size() - 1
-	var bit = bit_flip[_count]
-	bit.text = str(int(bit.text) + value)
+	var bit_node = bit_flip[_count]
+	bit_node.text = str(int(bit_node.text) + value)
 	if value == 1:
-		while int(bit.text) > bit_depth:
-			bit.text = str(0)
+		while int(bit_node.text) > bit_depth:
+			bit_node.text = str(0)
 			_count -= 1
-			bit = bit_flip[_count]
-			bit.text = str(int(bit.text) + value)
+			bit_node = bit_flip[_count]
+			bit_node.text = str(int(bit_node.text) + value)
 	else:
-		while int(bit.text) < 0:
-			bit.text = str(bit_depth)
+		while int(bit_node.text) < 0:
+			bit_node.text = str(bit_depth)
 			_count -= 1
-			bit = bit_flip[_count]
-			bit.text = str(int(bit.text) + value)
+			bit_node = bit_flip[_count]
+			bit_node.text = str(int(bit_node.text) + value)
 func _on_Pause_pressed(): paused = !paused
 func _on_SpinBox_value_changed(value):
 	paused = false

@@ -3,6 +3,29 @@ extends Node
 
 var use_JSON = false
 
+var resolutions = {
+	36: [Vector3(2, 2, 9)],
+	64: [Vector3(2, 2, 16)],
+	100: [Vector3(2, 2, 25)],
+	144: [Vector3(2, 2, 36), Vector3(4, 4, 9)],
+	256: [Vector3(4, 4, 16)],
+	400: [Vector3(4, 4, 25)],
+	576: [Vector3(4, 4, 36), Vector3(8, 8, 9)],
+	1024: [Vector3(8, 8, 16)],
+	1600: [Vector3(8, 8, 25)],
+	2304: [Vector3(8, 8, 36), Vector3(16, 16, 9)],
+	4096: [Vector3(16, 16, 16)],
+	6400: [Vector3(16, 16, 25)],
+	9216: [Vector3(16, 16, 36), Vector3(32, 32, 9)],
+	16384: [Vector3(32, 32, 16)],
+	25600: [Vector3(32, 32, 25)],
+	36864: [Vector3(32, 32, 36), Vector3(64, 64, 9)],
+	65536: [Vector3(64, 64, 16)],
+	102400: [Vector3(64, 64, 25)],
+	147456: [Vector3(64, 64, 36)],
+	
+}
+
 enum \
 	{
 	Name,
