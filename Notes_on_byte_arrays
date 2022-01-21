@@ -1,0 +1,39 @@
+Most byte arrays are 8 bit:
+	
+	19,                   #Variant Type (Array is 19)
+	0,                    #still unknown
+	0,                    #8 or 16 bit determinant???
+	0,                    #No idea
+	2,                    #Array Length Byte 1
+	0,                    #Array Length Byte 2
+	0,                    #Array Length Byte 3
+	0,                    #Array Length Byte 4
+	
+	
+	
+	TYPE_INT,             #Variant Type
+	0,                    #Unkown
+	0,                    #8 bit or 16 bit?
+	0,                    #Unkown
+	255,                  #Value byte #1
+	1,                    #Valye byte #2
+	0,                    #Value Byte #3
+	0,                    #Value Byte #4/Positive or Negative Integer
+	
+	
+	7, 
+	0, 
+	0, 
+	0, 
+	0, 
+	0, 
+	128, 
+	63, 
+	0, 
+	0, 
+	0, 
+	64, 
+	0, 
+	0, 
+	64, 
+	64,

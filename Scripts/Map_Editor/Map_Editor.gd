@@ -34,8 +34,9 @@ extends Control
 
 onready var timer       = Timer.new()
 onready var astar       = AStar2D.new()
-onready var tilemap     = $TileMap
-onready var map_size    = map_sizes[5]
+onready var tilemap     = $"Layers/0"
+onready var map_size    = map_sizes[3]
+var tilemaps            = []
 var map_sizes           = \
 [Vector2(2,2),    #0
 Vector2(4,4),     #1
@@ -54,7 +55,6 @@ var map_heights = \
 	121, #5
 	169, #6
 	225] #7
-
 
 var atlas                 = {}
 var threedarray           = []
@@ -94,8 +94,7 @@ var tilechangearray       = []
 var blank_tile            = 0
 var mousedown             = false
 var ignorekeys            = false
-var ogtilemap
-var mouseheld
+var clickposition
 var panactive             = false
 
 var camera_zoom_factor    = 0.2
@@ -114,8 +113,10 @@ var gridcontainer:GridContainer
 var tileselector:ItemList
 var toolbar:ItemList
 var tilescrollbar:ScrollContainer
+var layerlist:ItemList
+var layers:Object
 var reference_counter = 0
-var expected_references = 6
+var expected_references = 8
 var start_time = null
 
 func _self_reference(node, node_name):
@@ -154,7 +155,15 @@ func _self_reference(node, node_name):
 			tilescrollbar = node
 			reference_counter += 1
 			print(tilescrollbar.name, " Path Connection Successful")
-
+		
+		"Lower_Right_Tool":
+			layerlist = node
+			reference_counter += 1
+			print(layerlist.name, " Path Connection Successful")
+		"Layers":
+			layers = node
+			reference_counter += 1
+			print(layers.name, " Path Connection Successful")
 		_:
 			printerr(node.name, " Failed to connect to root node correctly")
 
@@ -188,15 +197,21 @@ func filebutton_ready():
 	filebutton.get_popup().add_item("Save Map File")
 	filebutton.get_popup().add_item("Save Script File")
 	filebutton.get_popup().add_item("Quit")
-	
-# warning-ignore:return_value_discarded
-	filebutton.get_popup().connect("id_pressed", self, "_on_filebutton_pressed")
+	if filebutton.get_popup().\
+	connect("id_pressed", self, "_on_filebutton_pressed"):
+		printerr("Filebutton failed to connect to Map Editor")
 
 #==============================================================================#
 #============================= Startup Functions ==============================#
 #==============================================================================#
 
 func _ready():
+	if reference_counter != expected_references:
+		printerr("Some node failed to connect, recieved ", reference_counter, \
+		" connections but expected ", expected_references)
+	for child in layers.get_children():
+		tilemaps.push_front(child)
+	prepare_layerlist()
 	prepare_toolbar()
 	populate_tile_selector()
 	prepare_tilemap()
@@ -211,7 +226,6 @@ func _ready():
 	self.add_child(timer)
 	console.text = " = Map Editor Successfully Loaded = "
 	print("Ready!, Map editor took ", OS.get_system_time_msecs() - start_time, "ms to start")
-
 func populate_tile_selector():
 	tileselector.icon_mode = 0
 	for id in tilemap.tile_set.get_tiles_ids():
@@ -229,6 +243,12 @@ func populate_tile_selector():
 	#Removes that one weird tile that always shows up at the end.
 	tileselector.remove_item(tileselector.get_item_count()-1)
 
+func prepare_layerlist():
+	var count = layers.get_child_count() - 1
+	for child in layers.get_children():
+		layerlist.add_item(child.name)
+		count -= 1
+
 func prepare_tilemap():
 	var gridline
 	var count = tileselector.get_item_count()
@@ -237,10 +257,13 @@ func prepare_tilemap():
 		if tileselector.get_item_tooltip(i) == "Gridline":
 			gridline = i
 
-	for x in range(map_size.x):
-		for y in range(map_size.y):
-			var tile = Vector2(x, y)
-			tilemap.set_cellv(tile, gridline)
+	for map in tilemaps:
+		map.position.y = int(map.name) * -17
+		map.z_index = int(map.name)
+		for x in range(map_size.x):
+			for y in range(map_size.y):
+				var tile = Vector2(x, y)
+				map.set_cellv(tile, gridline)
 
 func populate_atlas():
 	for y in range(map_size.y):
@@ -303,33 +326,32 @@ func _process(_delta):
 
 		Tool.PEN:
 			if mousedown == true:
-				#Compensation for tilemap Zoom level and Panning
 				var pos = get_local_mouse_position()
 				pos = pos - tilemap.position
-				pos = pos / tilemap.scale
+				pos.y -= 16
 				paint_tile(tilemap.world_to_map(pos))
 
 		Tool.ERASER:
 			if mousedown == true:
-				#Compensation for tilemap Zoom level and Panning
 				var pos = get_local_mouse_position()
 				pos = pos - tilemap.position
-				pos = pos / tilemap.scale
+				pos.y -= 16
 				paint_tile(tilemap.world_to_map(pos), blank_tile)
 
 		Tool.NOTPEN:
 			if mousedown == true:
-				#Compensation for tilemap Zoom level and Panning
 				var pos = get_local_mouse_position()
 				pos = pos - tilemap.position
-				pos = pos / tilemap.scale
+				pos.y -= 16
 				paint_tile(tilemap.world_to_map(pos))
 		Tool.PAN:
 			if mousedown == true:
-				tilemap.position = get_local_mouse_position() - mouseheld + ogtilemap
+				var offset = get_local_mouse_position() - $Camera2D.position
+				$Camera2D.position = clickposition - offset
 
 
 func _input(event):# Used for actions that are universal regardless of tool
+#CURRENTLY ONLY TO BE USED AS AN UNDO FUCTION AND NOTHING ELSE!!! 
 	# CTRL + Z
 	if event is InputEventKey:
 		# On Key Down
@@ -350,6 +372,7 @@ func _on_TilemapContainer_gui_input(event):
 			#Click to paint tiles selected tile
 			if event.is_action_pressed("mouse_left_click"):
 				mousedown = true
+				print_to_console(tilemap.position)
 			if event.is_action_released("mouse_left_click"):
 				var t = tilechangearray
 				mousedown = false
@@ -407,18 +430,15 @@ func _on_TilemapContainer_gui_input(event):
 			if event.is_action_pressed("mouse_left_click"):
 				var pos = get_local_mouse_position()
 				var coord
-				var index
 				var value
 				pos = pos - tilemap.position
 				pos = pos / tilemap.scale
 				coord = tilemap.world_to_map(pos)
 				value = tilemap.get_cellv(coord)
-				index = calculate_index(coord)
 				mousedown = true
 				var array = tilemap.get_used_cells_by_id(value)
 				for i in array:
 					paint_tile(i)
-					print("Run?")
 			if event.is_action_released("mouse_left_click"):
 				mousedown = false
 
@@ -451,27 +471,17 @@ func _on_TilemapContainer_gui_input(event):
 
 	#Zoom Out
 	if event.is_action_pressed("ui_page_down"):
-		var step = camera_zoom_factor
-		var zoom = tilemap.scale.x * step
-		tilemap.scale.x = stepify(tilemap.scale.x - zoom, 0.1)
-		tilemap.scale.y = stepify(tilemap.scale.y - zoom, 0.1)
+		var step = 0.1
+		$Camera2D.zoom.x = stepify($Camera2D.zoom.x + step, abs(step))
+		$Camera2D.zoom.y = stepify($Camera2D.zoom.y + step, abs(step))
 
 	#Zoom In
 	if event.is_action_pressed("ui_page_up"):
-		var step = camera_zoom_factor
-		var zoom = tilemap.scale.x * step
+		var step = -0.1
+		if $Camera2D.zoom.x == abs(step):return
+		$Camera2D.zoom.x = stepify($Camera2D.zoom.x + step, abs(step))
+		$Camera2D.zoom.y = stepify($Camera2D.zoom.y + step, abs(step))
 
-#Maximum limit you can zoom in
-		if tilemap.scale >= Vector2(16, 16):
-			tilemap.scale = Vector2(16, 16)
-			return
-#Prevents
-		if tilemap.scale == Vector2(step, step):
-			tilemap.scale = Vector2(step+zoom, step+zoom)
-			pass
-
-		tilemap.scale.x = stepify(tilemap.scale.x + zoom, 0.1)
-		tilemap.scale.y = stepify(tilemap.scale.y + zoom, 0.1)
 	#Panning
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("mouse_middle_click"):
@@ -483,8 +493,7 @@ func _on_TilemapContainer_gui_input(event):
 			selected_tool = Tool.PAN
 	
 			mousedown = true
-			mouseheld = get_global_mouse_position()
-			ogtilemap = tilemap.position
+			clickposition = get_local_mouse_position()
 		if event.is_action_released("mouse_middle_click"):
 			selected_tool = previous_tool
 			mousedown = false
@@ -493,20 +502,26 @@ func _on_TilemapContainer_gui_input(event):
 #scrolling input from the player. This is a bug in Godot and this is the only
 #currently viable workaround.
 func _on_ScrollContainer_gui_input(event):
-	if event.is_action_pressed("mouse_left_click"):
-		var pos = get_local_mouse_position()
-		pos.y += tilescrollbar.scroll_vertical
-		selected_tile = tileselector.get_item_at_position(pos)
-		tileselector.select(selected_tile)
-		tileselector.emit_signal("item_selected", selected_tile)
-		print(pos)
+	pass
+#	if event.is_action_pressed("mouse_left_click"):
+#		var pos = get_local_mouse_position()
+#		pos.y += tilescrollbar.scroll_vertical
+#		print_to_console("(", int(pos.x), ", ", int(pos.y), ")")
+#		print_to_console($Camera2D.zoom)
+#		selected_tile = tileselector.get_item_at_position(pos)
+#		tileselector.select(selected_tile)
+#		tileselector.emit_signal("item_selected", selected_tile)
+#		print(pos)
 
 #==============================================================================#
 #============================= Console Functions ==============================#
 #==============================================================================#
 
-func print_to_console(text):
-	console.text += str("\n", text)
+func print_to_console(a="",b="",c="",d="",e="",f="",g="",h="",i="",j="",k=""):
+	console.text += "\n"
+	for text in [a,b,c,d,e,f,g,h,i,j,k]:
+		text = str(text)
+		console.text += text
 	console.scroll_vertical = console.get_line_count() - 1
 
 func _on_Console_text_changed():
@@ -577,8 +592,6 @@ func bucket_paint(_index, tile_value, bucket_value = selected_tile):
 	var search_from  = [_index]
 	var search_to    = []
 	var searched     = []
-	var x = map_size.x
-
 
 	while search_from.size() > 0:
 #If there are no tiles to search from, break loop
@@ -597,13 +610,13 @@ func bucket_paint(_index, tile_value, bucket_value = selected_tile):
 			searched.append(index)
 		for ind in search_from:
 			var coord = atlas[int(ind)][I.COORD]
-			paint_tile(coord)
+			paint_tile(coord, bucket_value)
 		timer.start()
 		yield(timer, "timeout")
-		
 
 		search_from = search_to
 		search_to = []
+
 func _on_timer_timeout():
 	pass
 #==============================================================================#
@@ -624,3 +637,15 @@ func add_to_timeline(value, array):
 	for coord in array:
 		fillerarray.append(calculate_index(coord))
 	timeline[eventcounter] = {"Value": value, "Array": fillerarray}
+
+func _on_Lower_Right_Tool_item_selected(index):
+	for map in tilemaps:
+		for cell in map.get_used_cells_by_id(0):
+			map.set_cellv(cell, -1)
+
+	tilemap = layers.get_child(index)
+	for x in map_size.x:
+		for y in map_size.y:
+			if tilemap.get_cellv(Vector2(x,y)) == -1:
+				tilemap.set_cellv(Vector2(x,y), 0)
+	print_to_console(layers.get_child(index).name)

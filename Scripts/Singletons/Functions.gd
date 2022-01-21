@@ -3,6 +3,7 @@ extends Node
 var counter = 0
 var seconds = 0
 var curr_time = 0
+var func_cooldown = 0
 var run_once = false
 var linebreak = "====================================================="
 
@@ -14,10 +15,17 @@ func path_to_self(node):
 	return get_tree().root.get_path_to(node)
 
 func _process(delta):
+	func_cooldown -= delta
 	counter += delta
 	if counter >= 1:
 		counter = 0
 		seconds += 1
+
+func _input(event):
+	if event.is_action_released("ui_f11"):
+		if func_cooldown == 0:
+			OS.window_fullscreen = !OS.window_fullscreen
+			func_cooldown += 1
 
 func add_arrays(a1, a2):
 	var array = []

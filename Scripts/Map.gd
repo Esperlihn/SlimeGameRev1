@@ -140,10 +140,10 @@ func _populate_atlas() -> void:
 	var point270:Vector3
 	
 	#GLOBAL POSITIONS
-	var position:Vector2
-	var position90:Vector2
-	var position180:Vector2
-	var position270:Vector2
+	var Position:Vector2
+	var Position90:Vector2
+	var Position180:Vector2
+	var Position270:Vector2
 	
 	#ASTAR INDEX VALUES
 	var index:int
@@ -156,44 +156,42 @@ func _populate_atlas() -> void:
 	var walkable:bool
 	var swimmable:bool
 	var height:int
-# warning-ignore:unused_variable
 	var entity:Object
-# warning-ignore:unused_variable
-	var terraineffects
+	var terrain_effects
 
 	for x in range(0, map_size.x):
 		for y in range(0, map_size.y):
 			for z in range(0, layers.size()):
-				cell_value    = -1
-				layer         = layers[z]
-				coord         = Vector2(x, y)
-				coord90       = _rotate_coords(coord, "right")
-				coord180      = _rotate_coords(coord90, "right")
-				coord270      = _rotate_coords(coord180, "right")
-				point         = Vector3(x, y, z)
-				point90       = Vector3(coord90.x, coord90.y, z)
-				point180      = Vector3(coord180.x, coord180.y, z)
-				point270      = Vector3(coord270.x, coord270.y, z)
-				position      = layer.map_to_world(coord)
-				position90    = layer.map_to_world(coord90)
-				position180   = layer.map_to_world(coord180)
-				position270   = layer.map_to_world(coord270)
-				index         = _calculate_index(point)
-				index90       = _calculate_index(point90)
-				index180      = _calculate_index(point180)
-				index270      = _calculate_index(point270)
-				highlight_obj = null
-				walkable      = false
-				swimmable     = false
-				height        = 0
-				entity        = null
-				terraineffects= null
-				atlas[index]  = \
+				cell_value      = -1
+				layer           = layers[z]
+				coord           = Vector2(x, y)
+				coord90         = _rotate_coords(coord, "right")
+				coord180        = _rotate_coords(coord90, "right")
+				coord270        = _rotate_coords(coord180, "right")
+				point           = Vector3(x, y, z)
+				point90         = Vector3(coord90.x, coord90.y, z)
+				point180        = Vector3(coord180.x, coord180.y, z)
+				point270        = Vector3(coord270.x, coord270.y, z)
+				Position        = layer.map_to_world(coord)
+				Position90      = layer.map_to_world(coord90)
+				Position180     = layer.map_to_world(coord180)
+				Position270     = layer.map_to_world(coord270)
+				index           = _calculate_index(point)
+				index90         = _calculate_index(point90)
+				index180        = _calculate_index(point180)
+				index270        = _calculate_index(point270)
+				highlight_obj   = null
+				walkable        = false
+				swimmable       = false
+				height          = 0
+				entity          = null
+				terrain_effects = null
+				atlas[index]    = \
 				[
 				cell_value, layer,
 				coord, coord90, coord180, coord270,
 				point, point90, point180, point270,
-				position, position90, position180, position270,
+				Position, Position90, Position180, Position270,
 				index, index90, index180, index270,
 				highlight_obj,
 				walkable, swimmable, height
@@ -518,8 +516,7 @@ func _rotate_map(direction) -> void:
 	if rot_center != null:
 		camera.position = _rotate_position(rot_center, direction)
 	else:
-		camera.position = _rotate_position(camera.position, direction)
-	
+		camera.position = _rotate_position(camera.position, direction)	
 	print(Log.logger(str("Orientation is ", orientation, " Direction was ", direction)))
 	print(Log.logger(str("--ROTATE-- ", direction,  " took ", OS.get_system_time_msecs() - time, " ms to run")))
 

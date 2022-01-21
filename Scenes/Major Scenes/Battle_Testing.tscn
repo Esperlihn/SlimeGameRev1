@@ -361,3 +361,8 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.5
+
+[connection signal="pressed" from="HUD/V/H/V/H/Rotate_Left" to="." method="_on_Rotate_Left_pressed"]
+[connection signal="pressed" from="HUD/V/H/V/H/Rotate_Right" to="." method="_on_Rotate_Right_pressed"]
+
+[editable path="Map"]
